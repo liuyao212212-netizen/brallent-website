@@ -218,7 +218,7 @@ function Nav() {
   )
 }
 
-/* ================= 一、主视觉 ================= */
+/* ================= 一、主视觉（亮蓝发光浅底） ================= */
 function Hero() {
   const metrics = [
     { end: 96, suffix: '%+', label: '定制项目按期与高标准交付率' },
@@ -226,29 +226,58 @@ function Hero() {
     { end: 1, suffix: ' 对 1', label: '资深顾问与交付团队直接对接' },
     { end: 50, suffix: '+', label: '深度服务的成长型与行业标杆企业' },
   ]
+  const sparkles = [
+    { l: '11%', t: '22%' }, { l: '86%', t: '13%' }, { l: '72%', t: '32%' }, { l: '18%', t: '36%' },
+    { l: '50%', t: '7%' }, { l: '93%', t: '48%' }, { l: '6%', t: '55%' },
+  ]
   return (
     <section id="top" className="relative overflow-hidden pt-16 md:pt-[72px]">
-      <div className="grid-bg absolute inset-0" />
-      {/* 顶部氛围光 */}
-      <div className="absolute left-1/2 top-0 h-[300px] w-[85%] -translate-x-1/2 rounded-full bg-brand/10 blur-[90px] md:h-[360px] md:w-[720px]" />
-      {/* 底部星球弧光 */}
-      <div className="pointer-events-none absolute bottom-[-58%] left-1/2 -translate-x-1/2 md:bottom-[-55%]">
-        <div className="relative h-[560px] w-[560px] md:h-[760px] md:w-[760px]">
+      {/* 品牌蓝水洗渐变底 */}
+      <div
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse 85% 58% at 50% 30%, #d8e8ff 0%, #ecf3fe 45%, #f6f8fc 80%)' }}
+      />
+      {/* 网格（向下淡出） */}
+      <div
+        className="grid-bg absolute inset-0"
+        style={{ WebkitMaskImage: 'linear-gradient(to bottom, black 12%, transparent 82%)', maskImage: 'linear-gradient(to bottom, black 12%, transparent 82%)' }}
+      />
+      {/* 发光粒子 */}
+      {sparkles.map((s, i) => (
+        <span
+          key={i}
+          className="breathe absolute h-1.5 w-1.5 rounded-full bg-brand/60"
+          style={{ left: s.l, top: s.t, boxShadow: '0 0 10px rgba(13,109,244,0.8)', animationDelay: `${(i % 4) * 0.8}s` }}
+        />
+      ))}
+      {/* 星球弧光与轨道 */}
+      <div className="pointer-events-none absolute left-1/2 top-[50%] -translate-x-1/2 md:top-[48%]">
+        <div className="relative h-[820px] w-[820px] md:h-[1020px] md:w-[1020px]">
+          <div
+            className="absolute inset-0 rounded-full border-t-2"
+            style={{ borderColor: 'rgba(13,109,244,0.55)', boxShadow: '0 -12px 60px rgba(13,109,244,0.40), inset 0 36px 80px rgba(13,109,244,0.20)' }}
+          />
           <div
             className="absolute inset-0 rounded-full"
-            style={{ background: 'radial-gradient(circle at 50% 0%, rgba(13,109,244,0.20), rgba(13,109,244,0.05) 45%, transparent 65%)' }}
+            style={{ background: 'radial-gradient(circle at 50% 8%, rgba(13,109,244,0.28), rgba(13,109,244,0.08) 40%, transparent 60%)' }}
           />
-          <div className="absolute inset-[16%] rounded-full border border-brand/12" />
-          <div className="absolute inset-[30%] rounded-full border border-dashed border-brand/20" />
-          <div className="orbit-ring absolute inset-[6%]">
-            <div className="breathe absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand shadow-[0_0_16px_rgba(13,109,244,0.9)]" />
+          <div className="absolute inset-[13%] rounded-full border border-brand/15" />
+          <div className="absolute inset-[25%] rounded-full border border-dashed border-brand/25" />
+          <div className="orbit-ring absolute inset-[-4%]">
+            <div
+              className="breathe absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand"
+              style={{ boxShadow: '0 0 18px rgba(13,109,244,1)' }}
+            />
           </div>
-          <div className="orbit-ring-2 absolute inset-[24%]">
-            <div className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-navy/70 shadow-[0_0_10px_rgba(14,37,76,0.7)]" />
+          <div className="orbit-ring-2 absolute inset-[8%]">
+            <div
+              className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-400"
+              style={{ boxShadow: '0 0 14px rgba(56,160,255,0.95)' }}
+            />
           </div>
         </div>
       </div>
-      <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-14 md:pb-28 md:pt-20">
+      <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-14 md:pb-36 md:pt-20">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <span className="glass inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 text-xs font-medium text-navy-soft shadow-sm">
@@ -260,28 +289,28 @@ function Hero() {
             </span>
           </Reveal>
           <Reveal delay={100}>
-            <h1 className="mt-6 text-[1.9rem] font-bold leading-[1.32] tracking-tight text-navy md:mt-7 md:text-[3.4rem] md:leading-[1.28]">
+            <h1 className="balance mt-6 text-[1.9rem] font-bold leading-[1.32] tracking-tight text-navy md:mt-8 md:text-[3.4rem] md:leading-[1.28]">
               从专属构想到高标落地，
               <br />
               做<span className="text-gradient">懂企业的定制伙伴</span>。
             </h1>
           </Reveal>
           <Reveal delay={200}>
-            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-mist md:mt-6 md:text-lg">
+            <p className="balance mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-mist md:mt-6 md:text-lg">
               深入企业真实场景，提供一对一专属设计与全流程品控交付。
             </p>
           </Reveal>
           <Reveal delay={300}>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-10">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:mt-10">
               <a
                 href="#contact"
-                className="w-full rounded-lg bg-brand px-8 py-3.5 text-center font-semibold text-white shadow-xl shadow-brand/30 transition-all hover:-translate-y-0.5 hover:bg-brand-deep sm:w-auto"
+                className="rounded-lg bg-brand px-7 py-3.5 text-[15px] font-semibold text-white shadow-[0_12px_32px_rgba(13,109,244,0.35)] transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
               >
                 预约 1 对 1 定制咨询
               </a>
               <a
                 href="#cases"
-                className="glass w-full rounded-lg border border-line px-8 py-3.5 text-center font-semibold text-navy shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/40 sm:w-auto"
+                className="glass rounded-lg border border-line px-7 py-3.5 text-[15px] font-semibold text-navy shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/40"
               >
                 浏览精选客户案例
               </a>
@@ -290,13 +319,17 @@ function Hero() {
         </div>
         {/* 四栏核心数据背书条 */}
         <Reveal delay={420}>
-          <div className="relative mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-3 md:mt-20 lg:grid-cols-4">
+          <div className="relative mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-3 md:mt-24 lg:grid-cols-4">
             {metrics.map((s) => (
-              <div key={s.label} className="glass rounded-2xl border border-line/80 px-4 py-5 text-center card-shadow">
-                <div className="text-[1.65rem] font-bold text-brand md:text-3xl">
+              <div
+                key={s.label}
+                className="glass rounded-2xl border border-brand/25 px-4 py-5 text-center"
+                style={{ boxShadow: '0 10px 34px rgba(13,109,244,0.14), inset 0 1px 0 rgba(255,255,255,0.9)' }}
+              >
+                <div className="text-[1.65rem] font-bold text-brand md:text-3xl" style={{ textShadow: '0 0 16px rgba(13,109,244,0.45)' }}>
                   <CountUp end={s.end} prefix={s.prefix} suffix={s.suffix} />
                 </div>
-                <div className="mt-1.5 text-[11px] leading-relaxed text-mist md:text-xs">{s.label}</div>
+                <div className="balance mt-1.5 text-[11px] leading-snug text-mist md:text-xs">{s.label}</div>
               </div>
             ))}
           </div>
