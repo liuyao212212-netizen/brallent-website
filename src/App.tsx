@@ -304,7 +304,7 @@ function Hero() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:mt-10">
               <a
                 href="#contact"
-                className="rounded-lg bg-brand px-7 py-3.5 text-[15px] font-semibold text-white shadow-[0_12px_32px_rgba(13,109,244,0.35)] transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
+                className="btn-shine btn-shine-auto rounded-lg bg-brand px-7 py-3.5 text-[15px] font-semibold text-white shadow-[0_12px_32px_rgba(13,109,244,0.35)] transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
               >
                 预约 1 对 1 定制咨询
               </a>
@@ -413,7 +413,7 @@ function Services() {
         <div className="space-y-8 md:space-y-10">
           {services.map((s, i) => (
             <Reveal key={s.no} delay={i * 80}>
-              <div className="relative overflow-hidden rounded-3xl border border-line bg-page p-6 md:p-12">
+              <div className="glow-card relative overflow-hidden rounded-3xl border border-line bg-page p-6 md:p-12">
                 <div className="absolute -right-8 -top-10 select-none text-[110px] font-bold leading-none text-brand/[0.06] md:text-[160px]">
                   {s.no}
                 </div>
@@ -457,7 +457,7 @@ function Services() {
                   )}
                   <a
                     href={s.ctaMail}
-                    className="mt-8 inline-flex w-fit items-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
+                    className="btn-shine mt-8 inline-flex w-fit items-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
                   >
                     {s.cta} <ArrowIcon />
                   </a>
@@ -620,7 +620,7 @@ function Framework() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {steps.map((s, i) => (
             <Reveal key={s.no} delay={i * 80}>
-              <div className="flex h-full flex-col rounded-2xl border border-line bg-page p-6 transition-all hover:-translate-y-1 hover:border-brand/40 hover:card-shadow">
+              <div className="glow-card flex h-full flex-col rounded-2xl border border-line bg-page p-6 transition-all hover:-translate-y-1 hover:border-brand/40 hover:card-shadow">
                 <div className="flex items-center gap-3">
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-deep text-sm font-bold text-white shadow-lg shadow-brand/25">
                     {s.no}
@@ -972,7 +972,7 @@ function Contact() {
         <div className="grid gap-6 md:grid-cols-2">
           {cards.map((c, i) => (
             <Reveal key={c.title} delay={i * 100}>
-              <div className="flex h-full flex-col rounded-3xl border border-line bg-white p-7 card-shadow md:p-10">
+              <div className="glow-card flex h-full flex-col rounded-3xl border border-line bg-white p-7 card-shadow md:p-10">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-deep text-white shadow-lg shadow-brand/25">
                   <Icon name={c.icon} className="h-6 w-6" />
                 </div>
@@ -980,7 +980,7 @@ function Contact() {
                 <p className="mt-2.5 text-sm leading-relaxed text-mist">{c.desc}</p>
                 <a
                   href={c.href}
-                  className="mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
+                  className="btn-shine mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
                 >
                   {c.btn} <ArrowIcon />
                 </a>

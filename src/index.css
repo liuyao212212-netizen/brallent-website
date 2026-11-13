@@ -92,3 +92,72 @@ body {
 }
 
 .breathe { animation: breathe 4s ease-in-out infinite; }
+
+/* ---- 光泽扫过按钮（源自 uiverse satyamchaudharydev/rude-wolverine-24） ---- */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  background-image: linear-gradient(120deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0) 70%);
+  top: 0;
+  left: -100px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.btn-shine:hover::before {
+  animation: shine 1.2s ease-out infinite;
+}
+
+/* 主 CTA 自动循环扫光（手机端无 hover 也能看到动效） */
+.btn-shine-auto::before {
+  animation: shine 3.2s ease-out infinite;
+}
+
+@keyframes shine {
+  0% { left: -100px; }
+  60% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* ---- 旋转流光边框（conic-gradient border，源自 uiverse 社区 conic-border 模式） ---- */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.glow-card {
+  position: relative;
+}
+
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--angle), transparent 25%, #0d6df4 45%, #6ea8ff 55%, transparent 75%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: border-spin 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.glow-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes border-spin {
+  to { --angle: 360deg; }
+}
