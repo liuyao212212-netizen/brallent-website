@@ -5,6 +5,54 @@ import logoUrl from './assets/Brallent_Logo.svg'
 const mailto = (subject: string, body = '') =>
   `mailto:rose@brallent.cn?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
+/* ================= 数字滚动增长动画 ================= */
+function CountUp({
+  end,
+  prefix = '',
+  suffix = '',
+  decimals = 0,
+  duration = 1600,
+  className = '',
+}: {
+  end: number
+  prefix?: string
+  suffix?: string
+  decimals?: number
+  duration?: number
+  className?: string
+}) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const [val, setVal] = useState(0)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return
+        io.disconnect()
+        const start = performance.now()
+        const tick = (now: number) => {
+          const p = Math.min((now - start) / duration, 1)
+          const eased = 1 - Math.pow(1 - p, 3)
+          setVal(end * eased)
+          if (p < 1) requestAnimationFrame(tick)
+        }
+        requestAnimationFrame(tick)
+      },
+      { threshold: 0.4 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [end, duration])
+  return (
+    <span ref={ref} className={className}>
+      {prefix}
+      {val.toFixed(decimals)}
+      {suffix}
+    </span>
+  )
+}
+
 /* ================= 滚动入场动画 ================= */
 function Reveal({
   children,
@@ -40,28 +88,37 @@ function Reveal({
   )
 }
 
+/* ================= 专业线性图标 ================= */
+function Icon({ name, className = 'h-5 w-5' }: { name: string; className?: string }) {
+  const paths: Record<string, React.ReactNode> = {
+    code: <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14" />,
+    shirt: (
+      <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z" />
+    ),
+    shield: <path d="M12 22s8-3 8-10V6l-8-3-8 3v6c0 7 8 10 8 10zM9 11.5l2 2 4-4" />,
+    layers: <path d="m12 2 8.5 4.5L12 11 3.5 6.5 12 2zM3.5 11.5 12 16l8.5-4.5M3.5 16.5 12 21l8.5-4.5" />,
+    mail: <path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm0 1.5v.5l8 5.5 8-5.5v-.5M4 8l8 5.5L20 8" />,
+    phone: (
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z" />
+    ),
+    pin: <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0zM12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />,
+  }
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      {paths[name]}
+    </svg>
+  )
+}
+
 /* ================= 通用小件 ================= */
-function SectionTitle({
-  eyebrow,
-  title,
-  desc,
-}: {
-  eyebrow: string
-  title: React.ReactNode
-  desc?: string
-}) {
+function SectionTitle({ title, desc }: { title: React.ReactNode; desc?: string }) {
   return (
     <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
       <Reveal>
-        <span className="inline-block rounded-full border border-brand/20 bg-sky-tint px-4 py-1.5 text-xs font-medium tracking-widest text-brand">
-          {eyebrow}
-        </span>
-      </Reveal>
-      <Reveal delay={80}>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-navy md:text-4xl">{title}</h2>
+        <h2 className="text-[1.55rem] font-bold tracking-tight text-navy md:text-4xl">{title}</h2>
       </Reveal>
       {desc && (
-        <Reveal delay={140}>
+        <Reveal delay={120}>
           <p className="mt-4 leading-relaxed text-mist">{desc}</p>
         </Reveal>
       )}
@@ -113,19 +170,15 @@ function Nav() {
         </a>
         <div className="hidden items-center gap-7 lg:flex">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-[15px] font-medium text-ink/80 transition-colors hover:text-brand"
-            >
+            <a key={l.href} href={l.href} className="text-[15px] font-medium text-ink/80 transition-colors hover:text-brand">
               {l.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="rounded-xl bg-brand px-5 py-2.5 text-[15px] font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:bg-brand-deep hover:shadow-brand/35"
+            className="rounded-lg bg-brand px-5 py-2.5 text-[15px] font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:bg-brand-deep"
           >
-            预约 1 对 1 定制咨询
+            预约 1 对 1 咨询
           </a>
         </div>
         <button
@@ -155,12 +208,8 @@ function Nav() {
                 {l.label}
               </a>
             ))}
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="my-3 rounded-xl bg-brand py-3 text-center font-semibold text-white"
-            >
-              预约 1 对 1 定制咨询
+            <a href="#contact" onClick={() => setOpen(false)} className="my-3 rounded-lg bg-brand py-3 text-center font-semibold text-white">
+              预约 1 对 1 咨询
             </a>
           </div>
         </div>
@@ -172,17 +221,34 @@ function Nav() {
 /* ================= 一、主视觉 ================= */
 function Hero() {
   const metrics = [
-    { num: '96%+', label: '定制项目按期与高标准交付率' },
-    { num: '2–4 周', label: '核心定制需求敏捷落地周期' },
-    { num: '1 对 1', label: '资深顾问与交付团队直接对接' },
-    { num: '50+', label: '深度服务的成长型与行业标杆企业' },
+    { end: 96, suffix: '%+', label: '定制项目按期与高标准交付率' },
+    { end: 4, prefix: '2–', suffix: ' 周', label: '核心定制需求敏捷落地周期' },
+    { end: 1, suffix: ' 对 1', label: '资深顾问与交付团队直接对接' },
+    { end: 50, suffix: '+', label: '深度服务的成长型与行业标杆企业' },
   ]
   return (
     <section id="top" className="relative overflow-hidden pt-16 md:pt-[72px]">
       <div className="grid-bg absolute inset-0" />
-      <div className="glow-arc absolute inset-x-0 bottom-0 h-[420px]" />
-      <div className="absolute left-1/2 top-0 h-[360px] w-[720px] -translate-x-1/2 rounded-full bg-brand/10 blur-[110px]" />
-      <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-16 md:pb-32 md:pt-24">
+      {/* 顶部氛围光 */}
+      <div className="absolute left-1/2 top-0 h-[300px] w-[85%] -translate-x-1/2 rounded-full bg-brand/10 blur-[90px] md:h-[360px] md:w-[720px]" />
+      {/* 底部星球弧光 */}
+      <div className="pointer-events-none absolute bottom-[-58%] left-1/2 -translate-x-1/2 md:bottom-[-55%]">
+        <div className="relative h-[560px] w-[560px] md:h-[760px] md:w-[760px]">
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{ background: 'radial-gradient(circle at 50% 0%, rgba(13,109,244,0.20), rgba(13,109,244,0.05) 45%, transparent 65%)' }}
+          />
+          <div className="absolute inset-[16%] rounded-full border border-brand/12" />
+          <div className="absolute inset-[30%] rounded-full border border-dashed border-brand/20" />
+          <div className="orbit-ring absolute inset-[6%]">
+            <div className="breathe absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand shadow-[0_0_16px_rgba(13,109,244,0.9)]" />
+          </div>
+          <div className="orbit-ring-2 absolute inset-[24%]">
+            <div className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-navy/70 shadow-[0_0_10px_rgba(14,37,76,0.7)]" />
+          </div>
+        </div>
+      </div>
+      <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-14 md:pb-28 md:pt-20">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <span className="glass inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 text-xs font-medium text-navy-soft shadow-sm">
@@ -194,41 +260,43 @@ function Hero() {
             </span>
           </Reveal>
           <Reveal delay={100}>
-            <h1 className="mt-7 text-[1.75rem] font-bold leading-[1.35] tracking-tight text-navy md:text-5xl md:leading-[1.3]">
+            <h1 className="mt-6 text-[1.9rem] font-bold leading-[1.32] tracking-tight text-navy md:mt-7 md:text-[3.4rem] md:leading-[1.28]">
               从专属构想到高标落地，
               <br />
               做<span className="text-gradient">懂企业的定制伙伴</span>。
             </h1>
           </Reveal>
           <Reveal delay={200}>
-            <p className="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-mist md:text-lg">
+            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-mist md:mt-6 md:text-lg">
               深入企业真实场景，提供一对一专属设计与全流程品控交付。
             </p>
           </Reveal>
           <Reveal delay={300}>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-10">
               <a
                 href="#contact"
-                className="w-full rounded-xl bg-brand px-8 py-3.5 text-center font-semibold text-white shadow-xl shadow-brand/30 transition-all hover:-translate-y-0.5 hover:bg-brand-deep sm:w-auto"
+                className="w-full rounded-lg bg-brand px-8 py-3.5 text-center font-semibold text-white shadow-xl shadow-brand/30 transition-all hover:-translate-y-0.5 hover:bg-brand-deep sm:w-auto"
               >
                 预约 1 对 1 定制咨询
               </a>
               <a
                 href="#cases"
-                className="glass w-full rounded-xl border border-line px-8 py-3.5 text-center font-semibold text-navy shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/40 sm:w-auto"
+                className="glass w-full rounded-lg border border-line px-8 py-3.5 text-center font-semibold text-navy shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/40 sm:w-auto"
               >
-                浏览精选客户案例 <span className="text-brand">→</span>
+                浏览精选客户案例
               </a>
             </div>
           </Reveal>
         </div>
         {/* 四栏核心数据背书条 */}
         <Reveal delay={420}>
-          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="relative mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-3 md:mt-20 lg:grid-cols-4">
             {metrics.map((s) => (
               <div key={s.label} className="glass rounded-2xl border border-line/80 px-4 py-5 text-center card-shadow">
-                <div className="text-2xl font-bold text-brand md:text-3xl">{s.num}</div>
-                <div className="mt-1.5 text-xs leading-relaxed text-mist">{s.label}</div>
+                <div className="text-[1.65rem] font-bold text-brand md:text-3xl">
+                  <CountUp end={s.end} prefix={s.prefix} suffix={s.suffix} />
+                </div>
+                <div className="mt-1.5 text-[11px] leading-relaxed text-mist md:text-xs">{s.label}</div>
               </div>
             ))}
           </div>
@@ -243,7 +311,7 @@ function Services() {
   const services = [
     {
       no: '01',
-      tag: 'FDE · Forward Deployed Engineering（前线部署工程）',
+      tag: 'FDE · 前线部署工程（Forward Deployed Engineering）',
       title: 'FDE 定制',
       positioning: '无需自建庞大的研发中台，也能拥有直接嵌入业务一线的定制工程团队。',
       desc: '市面上的标准化软件往往难以适配企业真实的业务流程与数据边界。博瑞伦特通过 FDE（前线部署工程）模式，派驻懂业务的资深工程师直接进驻你的日常协作流，围绕实际系统环境与核心业务卡点进行敏捷定制开发——不搞动辄半年的重型研发，周级推进、快速见效，并在交付中手把手赋能你的内部团队掌握独立运维能力。',
@@ -271,7 +339,7 @@ function Services() {
     },
     {
       no: '02',
-      tag: 'Enterprise Apparel Customization',
+      tag: '企业服装定制（Enterprise Apparel Customization）',
       title: '企业服装定制',
       positioning: '摆脱普通印花的粗糙感与传统大厂的高起订门槛，打造兼具质感与认同感的企业专属服饰。',
       desc: '无论是团队日常着装、大型峰会与国际展会，还是新员工入职与重要客户礼赠，服饰都是企业形象最直观的物理载体。博瑞伦特提供从 1 对 1 免费设计、高定级面料甄选到成衣全检交付的全流程企业服装定制服务——无论是几十件的精干团队小批量定制，还是数百上千件的全员大货，均享受同等严苛的版型与品控标准。',
@@ -303,31 +371,28 @@ function Services() {
     },
   ]
   return (
-    <section id="services" className="relative bg-white py-20 md:py-28">
+    <section id="services" className="relative bg-white py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5">
         <SectionTitle
-          eyebrow="OUR SERVICES"
           title="核心定制业务"
           desc="围绕企业的真实运营与形象需求，博瑞伦特聚焦提供以下两项深度定制服务。"
         />
-        <div className="space-y-10">
+        <div className="space-y-8 md:space-y-10">
           {services.map((s, i) => (
             <Reveal key={s.no} delay={i * 80}>
-              <div className="relative overflow-hidden rounded-3xl border border-line bg-page p-7 md:p-12">
-                <div className="absolute -right-8 -top-10 select-none text-[120px] font-bold leading-none text-brand/[0.06] md:text-[160px]">
+              <div className="relative overflow-hidden rounded-3xl border border-line bg-page p-6 md:p-12">
+                <div className="absolute -right-8 -top-10 select-none text-[110px] font-bold leading-none text-brand/[0.06] md:text-[160px]">
                   {s.no}
                 </div>
                 <div className="relative">
-                  <span className="inline-block rounded-full bg-brand/10 px-3.5 py-1.5 text-xs font-semibold text-brand">
+                  <span className="inline-block rounded-md bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
                     业务 {s.no} ｜ {s.tag}
                   </span>
                   <h3 className="mt-4 text-2xl font-bold text-navy md:text-3xl">{s.title}</h3>
-                  {/* 核心定位 */}
                   <div className="mt-5 rounded-2xl border-l-4 border-brand bg-sky-tint/70 px-5 py-4">
                     <p className="text-[15px] font-semibold leading-relaxed text-navy">{s.positioning}</p>
                   </div>
-                  <p className="mt-5 leading-relaxed text-mist">{s.desc}</p>
-                  {/* 四项核心交付 */}
+                  <p className="mt-5 text-sm leading-relaxed text-mist md:text-[15px]">{s.desc}</p>
                   <div className="mt-8 grid gap-4 md:grid-cols-2">
                     {s.deliveries.map((d, idx) => (
                       <div
@@ -344,13 +409,12 @@ function Services() {
                       </div>
                     ))}
                   </div>
-                  {/* 服装业务的确定性承诺 */}
                   {s.promises.length > 0 && (
                     <div className="mt-6 flex flex-wrap gap-2.5">
                       {s.promises.map((p) => (
                         <span
                           key={p}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-brand/25 bg-white px-3.5 py-1.5 text-xs font-medium text-brand"
+                          className="inline-flex items-center gap-1.5 rounded-md border border-brand/25 bg-white px-3.5 py-1.5 text-xs font-medium text-brand"
                         >
                           <CheckIcon className="h-3.5 w-3.5" />
                           {p}
@@ -360,7 +424,7 @@ function Services() {
                   )}
                   <a
                     href={s.ctaMail}
-                    className="mt-8 inline-flex w-fit items-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
+                    className="mt-8 inline-flex w-fit items-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
                   >
                     {s.cta} <ArrowIcon />
                   </a>
@@ -403,15 +467,13 @@ function Why() {
     },
   ]
   return (
-    <section id="why" className="relative overflow-hidden py-20 md:py-28">
+    <section id="why" className="relative overflow-hidden py-16 md:py-28">
       <div className="absolute -left-40 top-1/3 h-96 w-96 rounded-full bg-brand/8 blur-[100px]" />
       <div className="relative mx-auto max-w-6xl px-5">
         <SectionTitle
-          eyebrow="WHY BRALLENT"
           title="为什么选择博瑞伦特"
           desc="我们深知企业在进行定制采购时的核心考量：既要方案真正贴合业务、交付品质过硬，又希望沟通直接高效、合作门槛灵活可控。"
         />
-        {/* 桌面端表格 */}
         <Reveal>
           <div className="hidden overflow-hidden rounded-3xl border border-line bg-white card-shadow md:block">
             <table className="w-full text-left text-sm">
@@ -443,7 +505,6 @@ function Why() {
             </table>
           </div>
         </Reveal>
-        {/* 移动端卡片 */}
         <div className="space-y-4 md:hidden">
           {rows.map((r, i) => (
             <Reveal key={r.dim} delay={i * 80}>
@@ -517,10 +578,9 @@ function Framework() {
     },
   ]
   return (
-    <section id="framework" className="bg-white py-20 md:py-28">
+    <section id="framework" className="bg-white py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5">
         <SectionTitle
-          eyebrow="THE BRALLENT FRAMEWORK™"
           title="博瑞伦特五步定制交付体系"
           desc="无论交付形态是系统工程还是实体成衣，博瑞伦特始终以同一套高确定性的定制标准推进每一个项目。"
         />
@@ -540,15 +600,11 @@ function Framework() {
                 <p className="mt-4 text-sm font-medium text-ink/85">{s.action}</p>
                 <div className="mt-4 space-y-3 border-t border-line pt-4">
                   <div>
-                    <div className="mb-1 inline-block rounded bg-brand/10 px-2 py-0.5 text-[11px] font-semibold text-brand">
-                      FDE 标准
-                    </div>
+                    <div className="mb-1 inline-block rounded bg-brand/10 px-2 py-0.5 text-[11px] font-semibold text-brand">FDE 标准</div>
                     <p className="text-xs leading-relaxed text-mist">{s.fde}</p>
                   </div>
                   <div>
-                    <div className="mb-1 inline-block rounded bg-navy/8 px-2 py-0.5 text-[11px] font-semibold text-navy-soft">
-                      服装标准
-                    </div>
+                    <div className="mb-1 inline-block rounded bg-navy/8 px-2 py-0.5 text-[11px] font-semibold text-navy-soft">服装标准</div>
                     <p className="text-xs leading-relaxed text-mist">{s.apparel}</p>
                   </div>
                 </div>
@@ -562,6 +618,7 @@ function Framework() {
 }
 
 /* ================= 五、精选客户案例库 ================= */
+type Impact = { end: number; decimals?: number; prefix?: string; suffix?: string; label: string }
 type Case = {
   type: 'fde' | 'apparel'
   typeLabel: string
@@ -569,7 +626,7 @@ type Case = {
   bg: string
   challenge: string
   solution: string[]
-  impact: { num: string; label: string }[]
+  impact: Impact[]
   quote: string
   author: string
 }
@@ -579,17 +636,16 @@ const CASES: Case[] = [
     typeLabel: 'FDE 定制 · 跨境零售',
     title: '某跨境电商消费品牌：FDE 驻场定制自动化运营与商品管理工作流',
     bg: '一家主营海外独立站的高成长消费品牌，SKU 超过 1,500 个，运营团队精干高效，但大促期间多语言售前咨询与新品规格上架工作量激增，人手明显吃紧。',
-    challenge:
-      '市面上的通用工具无法读取企业实时库存与专属尺码规则，容易答错；人工整理多语言卖点与尺码转换表耗时极长。',
+    challenge: '市面上的通用工具无法读取企业实时库存与专属尺码规则，容易答错；人工整理多语言卖点与尺码转换表耗时极长。',
     solution: [
       '定制带业务规则护栏的售前智能响应流，精准匹配库存与定制参数',
       '开发多语言商品内容与尺码表一键生成工作流',
       '为 6 名运营骨干完成实战运维培训并移交完整技术文档',
     ],
     impact: [
-      { num: '78%', label: '常见售前与尺码咨询实现系统自动精准响应' },
-      { num: '4.5 倍', label: '新品全套多语言上架准备效率提升' },
-      { num: '21 天', label: '从需求诊断到生产环境全量上线' },
+      { end: 78, suffix: '%', label: '常见售前与尺码咨询实现系统自动精准响应' },
+      { end: 4.5, decimals: 1, suffix: ' 倍', label: '新品全套多语言上架准备效率提升' },
+      { end: 21, suffix: ' 天', label: '从需求诊断到生产环境全量上线' },
     ],
     quote: '我们团队讲究实效，经不起几个月的试错。博瑞伦特的工程师第一周就摸透了我们的库存和定制规则，三周交出来的系统我们运营每天都在用。',
     author: '某跨境品牌运营总监',
@@ -599,17 +655,16 @@ const CASES: Case[] = [
     typeLabel: 'FDE 定制 · B2B 专业服务',
     title: '某 B2B 专业服务机构：私有化企业知识检索与方案协同系统定制',
     bg: '一家处于快速扩张期的企业咨询与技术服务机构，历年积累了大量项目方案与行业资料，但分散在各部门网盘中，新人上手慢、顾问写方案重复劳动多。',
-    challenge:
-      '客户数据保密要求极高，且不同职级访问权限不同，市面上的通用检索软件无法满足精细化权限隔离与私有化部署要求。',
+    challenge: '客户数据保密要求极高，且不同职级访问权限不同，市面上的通用检索软件无法满足精细化权限隔离与私有化部署要求。',
     solution: [
       'FDE 团队进驻客户技术与业务部门，量身定制私有化部署的分级权限知识检索与方案辅助系统',
       '打通历史项目库，建立严格的 RBAC 权限审计机制与结构化提案初稿生成流',
       '指导内部 IT 团队掌握日常维护',
     ],
     impact: [
-      { num: '65%', label: '顾问与销售团队撰写定制方案的基础耗时缩短' },
-      { num: '100%', label: '内部敏感资料实现私有域隔离与权限审计' },
-      { num: '2 周', label: '新入职顾问独立输出标准业务方案周期缩短至 2 周' },
+      { end: 65, suffix: '%', label: '顾问与销售团队撰写定制方案的基础耗时缩短' },
+      { end: 100, suffix: '%', label: '内部敏感资料实现私有域隔离与权限审计' },
+      { end: 2, suffix: ' 周', label: '新入职顾问独立输出标准业务方案周期缩短至 2 周' },
     ],
     quote: '相比单纯卖标准软件的厂商，博瑞伦特驻场理解业务、并且教会我们内部团队自己维护的模式，真正把技术变成了公司的核心资产。',
     author: '某服务机构业务合伙人',
@@ -619,17 +674,16 @@ const CASES: Case[] = [
     typeLabel: '企业服装定制 · 峰会与展会',
     title: '某前沿人工智能企业：280 套年度行业峰会与海外参展团队服饰定制',
     bg: '一家高速发展的 AI 软件公司筹备年度行业峰会及海外参展，需要为参展团队、技术演讲嘉宾及核心客户定制全套高质感服饰。',
-    challenge:
-      '订单量在 280 套左右，大型代工厂排期慢、门槛高，而普通印花店面料松垮、Logo 绣花粗糙，无法匹配公司的科技品牌调性。',
+    challenge: '订单量在 280 套左右，大型代工厂排期慢、门槛高，而普通印花店面料松垮、Logo 绣花粗糙，无法匹配公司的科技品牌调性。',
     solution: [
       '专属设计顾问极速响应：24 小时内输出 3 套视觉延展方案，历经 4 轮免费修改后 48 小时内寄出实物样衣',
       '高定级面料与双版型配置：280g 高支双纱纯棉文化衫（标准/宽松双版型）搭配防风机能冲锋衣，Logo 采用万针高密进口绣花',
       '全检品控准时交付：50% 定金锁单排产，逐件核验尺码与工艺细节，提前 2 天送达指定会场',
     ],
     impact: [
-      { num: '280 套', label: '零瑕疵全检通过，提前 2 天准时交付' },
-      { num: '98%', label: '会后员工日常主动穿着率（内部调研反馈）' },
-      { num: '0 增项', label: '全程免费修改设计稿，预算 100% 透明可控' },
+      { end: 280, suffix: ' 套', label: '零瑕疵全检通过，提前 2 天准时交付' },
+      { end: 98, suffix: '%', label: '会后员工日常主动穿着率（内部调研反馈）' },
+      { end: 0, suffix: ' 增项', label: '全程免费修改设计稿，预算 100% 透明可控' },
     ],
     quote: '以前两三百件的精品定制最难找供应商，大厂排期久、小店做不好。博瑞伦特从打样到大货的品控非常稳，连挑剔的设计总监都对刺绣质感赞不绝口。',
     author: '某 AI 软件企业品牌市场负责人',
@@ -639,17 +693,16 @@ const CASES: Case[] = [
     typeLabel: '企业服装定制 · 连锁零售制服',
     title: '某新消费连锁品牌：全季员工制服升级与新店小批量快反补单定制',
     bg: '一家处于区域扩张期的连锁消费品牌，原有员工制服版型偏硬、透气性差，且每月新开门店时的小批量补单周期极长。',
-    challenge:
-      '门店日常工作强度大，服装需兼顾耐磨耐洗与年轻化审美；同时新店开业每次仅需补单 15–30 件，传统供应商不愿配合小单快反。',
+    challenge: '门店日常工作强度大，服装需兼顾耐磨耐洗与年轻化审美；同时新店开业每次仅需补单 15–30 件，传统供应商不愿配合小单快反。',
     solution: [
       '重塑夏季高透气珠地网眼 Polo 衫与秋冬重磅毛圈卫衣版型',
       '建立专属企业制衣档案（锁定标准色号、定制织唛与工艺参数）',
       '支持新店开业按需 15–30 件小批量快速补单直发门店',
     ],
     impact: [
-      { num: '7 天', label: '新店开业 15–30 件小批量补单极速交付周期' },
-      { num: '95%+', label: '一线门店员工对新版制服舒适度满意度' },
-      { num: '0 色差', label: '跨批次、跨季度复购保持高度一致的成衣品质' },
+      { end: 7, suffix: ' 天', label: '新店开业 15–30 件小批量补单极速交付周期' },
+      { end: 95, suffix: '%+', label: '一线门店员工对新版制服舒适度满意度' },
+      { end: 0, suffix: ' 色差', label: '跨批次、跨季度复购保持高度一致的成衣品质' },
     ],
     quote: '',
     author: '',
@@ -659,17 +712,17 @@ const CASES: Case[] = [
 function CaseCard({ c }: { c: Case }) {
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white card-shadow">
-      <div className="relative bg-gradient-to-br from-sky-tint to-white px-7 pb-6 pt-7">
+      <div className="relative bg-gradient-to-br from-sky-tint to-white px-6 pb-5 pt-6 md:px-7 md:pt-7">
         <span
-          className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${
+          className={`inline-block rounded-md px-3 py-1 text-xs font-semibold ${
             c.type === 'fde' ? 'bg-brand/10 text-brand' : 'bg-navy/8 text-navy-soft'
           }`}
         >
           {c.typeLabel}
         </span>
-        <h3 className="mt-3 text-lg font-bold leading-snug text-navy">{c.title}</h3>
+        <h3 className="mt-3 text-[17px] font-bold leading-snug text-navy md:text-lg">{c.title}</h3>
       </div>
-      <div className="flex flex-1 flex-col gap-4 px-7 pb-7 pt-1">
+      <div className="flex flex-1 flex-col gap-4 px-6 pb-6 pt-1 md:px-7 md:pb-7">
         <div>
           <div className="text-xs font-semibold tracking-wider text-mist/70">客户背景</div>
           <p className="mt-1.5 text-sm leading-relaxed text-ink/80">{c.bg}</p>
@@ -695,8 +748,10 @@ function CaseCard({ c }: { c: Case }) {
           <div className="text-xs font-semibold tracking-wider text-mist/70">量化成果</div>
           <div className="mt-2 grid grid-cols-3 gap-2">
             {c.impact.map((m) => (
-              <div key={m.label} className="rounded-xl bg-gradient-to-b from-sky-tint to-white px-3 py-3 text-center ring-1 ring-line">
-                <div className="text-lg font-bold text-brand">{m.num}</div>
+              <div key={m.label} className="rounded-xl bg-gradient-to-b from-sky-tint to-white px-2 py-3 text-center ring-1 ring-line">
+                <div className="text-[1.05rem] font-bold text-brand md:text-lg">
+                  <CountUp end={m.end} decimals={m.decimals} prefix={m.prefix} suffix={m.suffix} />
+                </div>
                 <div className="mt-1 text-[11px] leading-snug text-mist">{m.label}</div>
               </div>
             ))}
@@ -722,21 +777,19 @@ function Cases() {
   ] as const
   const shown = CASES.filter((c) => filter === 'all' || c.type === filter)
   return (
-    <section id="cases" className="py-20 md:py-28">
+    <section id="cases" className="py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5">
         <SectionTitle
-          eyebrow="SELECTED CASE STUDIES"
           title="精选客户案例库"
           desc="每一项定制托付，最终都要接受真实业务与日常穿着的检验。浏览博瑞伦特在 FDE 定制与企业服装定制领域的部分代表性交付记录。"
         />
-        {/* 筛选标签 */}
         <Reveal>
           <div className="mb-10 flex justify-center gap-2.5">
             {tabs.map((t) => (
               <button
                 key={t.key}
                 onClick={() => setFilter(t.key)}
-                className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
+                className={`rounded-lg px-5 py-2 text-sm font-medium transition-all ${
                   filter === t.key
                     ? 'bg-navy text-white shadow-lg shadow-navy/20'
                     : 'border border-line bg-white text-mist hover:border-brand/40 hover:text-brand'
@@ -761,33 +814,34 @@ function Cases() {
 
 /* ================= 六、交付标准与品质保障 ================= */
 function Standards() {
+  const blocks = [
+    {
+      icon: 'shield',
+      title: 'FDE 工程交付与数据安全标准',
+      desc: '支持企业私有化及专有云环境部署，严格遵循企业级角色权限隔离（RBAC）与数据脱敏规范；所有定制代码与架构文档产权归属清晰，交付即移交完整控制权。',
+    },
+    {
+      icon: 'layers',
+      title: '企业服装供应链与成衣品控标准',
+      desc: '深度合作一线品牌代工级纺织印染与成衣制造基地，覆盖环保活性印染、高密万针刺绣、特种丝网印及环保包装全工艺链，所有贴身衣物均符合国家 A/B 类纺织品安全标准。',
+    },
+  ]
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-white py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5">
-        <SectionTitle eyebrow="STANDARDS & ASSURANCE" title="交付标准与品质保障" />
+        <SectionTitle title="交付标准与品质保障" />
         <div className="grid gap-6 lg:grid-cols-2">
-          <Reveal>
-            <div className="h-full rounded-3xl border border-line bg-page p-8 transition-all hover:border-brand/40 hover:card-shadow md:p-10">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-deep text-xl text-white shadow-lg shadow-brand/25">
-                🛡️
+          {blocks.map((b, i) => (
+            <Reveal key={b.title} delay={i * 100}>
+              <div className="h-full rounded-3xl border border-line bg-page p-8 transition-all hover:border-brand/40 hover:card-shadow md:p-10">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-deep text-white shadow-lg shadow-brand/25">
+                  <Icon name={b.icon} className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 text-xl font-bold text-navy">{b.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-mist">{b.desc}</p>
               </div>
-              <h3 className="mt-5 text-xl font-bold text-navy">FDE 工程交付与数据安全标准</h3>
-              <p className="mt-3 text-sm leading-relaxed text-mist">
-                支持企业私有化及专有云环境部署，严格遵循企业级角色权限隔离（RBAC）与数据脱敏规范；所有定制代码与架构文档产权归属清晰，交付即移交完整控制权。
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={120}>
-            <div className="h-full rounded-3xl border border-line bg-page p-8 transition-all hover:border-brand/40 hover:card-shadow md:p-10">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-navy-soft text-xl text-white shadow-lg shadow-navy/25">
-                🧵
-              </div>
-              <h3 className="mt-5 text-xl font-bold text-navy">企业服装供应链与成衣品控标准</h3>
-              <p className="mt-3 text-sm leading-relaxed text-mist">
-                深度合作一线品牌代工级纺织印染与成衣制造基地，覆盖环保活性印染、高密万针刺绣、特种丝网印及环保包装全工艺链，所有贴身衣物均符合国家 A/B 类纺织品安全标准。
-              </p>
-            </div>
-          </Reveal>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -816,9 +870,9 @@ function FAQ() {
   ]
   const [open, setOpen] = useState(0)
   return (
-    <section id="faq" className="py-20 md:py-28">
+    <section id="faq" className="py-16 md:py-28">
       <div className="mx-auto max-w-3xl px-5">
-        <SectionTitle eyebrow="FAQ" title="常见问题解答" />
+        <SectionTitle title="常见问题解答" />
         <div className="space-y-3">
           {faqs.map((f, i) => (
             <Reveal key={f.q} delay={i * 60}>
@@ -827,24 +881,17 @@ function FAQ() {
                   open === i ? 'border-brand/40 card-shadow' : 'border-line'
                 }`}
               >
-                <button
-                  onClick={() => setOpen(open === i ? -1 : i)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
-                >
+                <button onClick={() => setOpen(open === i ? -1 : i)} className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
                   <span className="font-semibold text-navy">{f.q}</span>
                   <span
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm transition-all ${
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-sm font-bold transition-all ${
                       open === i ? 'rotate-45 bg-brand text-white' : 'bg-sky-tint text-brand'
                     }`}
                   >
                     +
                   </span>
                 </button>
-                <div
-                  className={`grid transition-all duration-300 ${
-                    open === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-                  }`}
-                >
+                <div className={`grid transition-all duration-300 ${open === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                   <div className="overflow-hidden">
                     <p className="px-6 pb-5 text-sm leading-relaxed text-mist">{f.a}</p>
                   </div>
@@ -862,14 +909,14 @@ function FAQ() {
 function Contact() {
   const cards = [
     {
-      icon: '⚙️',
+      icon: 'code',
       title: '预约 FDE 定制咨询',
       desc: '1 对 1 梳理业务场景与定制可行性，获取专属工程部署建议',
       btn: '立即预约',
       href: mailto('【FDE 定制咨询】预约 1 对 1 沟通', '你好，我想预约 FDE 定制咨询：\n\n公司名称：\n业务场景简述：\n'),
     },
     {
-      icon: '👕',
+      icon: 'shirt',
       title: '发起企业服装定制',
       desc: '发送品牌 Logo 与定制需求，24 小时内获取免费设计方案与阶梯报价',
       btn: '获取免费设计',
@@ -877,31 +924,30 @@ function Contact() {
     },
   ]
   const infos = [
-    { icon: '✉️', label: '企业邮箱', value: 'rose@brallent.cn' },
-    { icon: '📱', label: '专属顾问电话 / 微信', value: '+86 15802439194（微信：bbly212）' },
-    { icon: '📍', label: '公司地址', value: '北京市大兴区盛坊路 5 号院 6 号楼 1001-7' },
+    { icon: 'mail', label: '企业邮箱', value: 'rose@brallent.cn' },
+    { icon: 'phone', label: '专属顾问电话 / 微信', value: '+86 15802439194（微信：bbly212）' },
+    { icon: 'pin', label: '公司地址', value: '北京市大兴区盛坊路 5 号院 6 号楼 1001-7' },
   ]
   return (
-    <section id="contact" className="relative overflow-hidden py-20 md:py-28">
+    <section id="contact" className="relative overflow-hidden py-16 md:py-28">
       <div className="glow-arc absolute inset-x-0 bottom-0 h-[380px]" />
       <div className="relative mx-auto max-w-6xl px-5">
         <SectionTitle
-          eyebrow="CONTACT US"
-          title={<>准备好启动你的专属企业定制项目了吗？</>}
+          title="准备好启动你的专属企业定制项目了吗？"
           desc="无论是希望通过 FDE 深度定制贴合业务的系统工作流，还是筹备下一阶段的高质感企业服装定制，博瑞伦特团队已准备就绪。"
         />
         <div className="grid gap-6 md:grid-cols-2">
           {cards.map((c, i) => (
             <Reveal key={c.title} delay={i * 100}>
-              <div className="flex h-full flex-col rounded-3xl border border-line bg-white p-8 card-shadow md:p-10">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-tint to-brand/10 text-2xl">
-                  {c.icon}
+              <div className="flex h-full flex-col rounded-3xl border border-line bg-white p-7 card-shadow md:p-10">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-deep text-white shadow-lg shadow-brand/25">
+                  <Icon name={c.icon} className="h-6 w-6" />
                 </div>
                 <h3 className="mt-5 text-xl font-bold text-navy">{c.title}</h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-mist">{c.desc}</p>
                 <a
                   href={c.href}
-                  className="mt-6 inline-flex w-fit items-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
+                  className="mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-deep"
                 >
                   {c.btn} <ArrowIcon />
                 </a>
@@ -909,15 +955,14 @@ function Contact() {
             </Reveal>
           ))}
         </div>
-        {/* 联系信息 */}
         <Reveal delay={200}>
-          <div className="mt-10 overflow-hidden rounded-3xl bg-gradient-to-br from-navy to-brand-deep p-8 text-white md:p-10">
+          <div className="relative mt-10 overflow-hidden rounded-3xl bg-gradient-to-br from-navy to-brand-deep p-7 text-white md:p-10">
             <div className="grid-bg absolute inset-0 opacity-15" />
             <div className="relative grid gap-6 md:grid-cols-3">
               {infos.map((it) => (
                 <div key={it.label} className="flex items-start gap-4">
-                  <span className="glass flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-lg">
-                    {it.icon}
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                    <Icon name={it.icon} />
                   </span>
                   <div>
                     <div className="text-xs text-white/60">{it.label}</div>
@@ -936,11 +981,11 @@ function Contact() {
 /* ================= 数据带 + 页脚 ================= */
 function Footer() {
   const stats = [
-    { num: '96%+', label: '按期高标准交付率' },
-    { num: '2–4 周', label: '敏捷落地周期' },
-    { num: '1 对 1', label: '专属顾问直接对接' },
-    { num: '50+', label: '深度服务企业客户' },
-    { num: '5 步', label: '标准定制交付体系' },
+    { end: 96, suffix: '%+', label: '按期高标准交付率' },
+    { end: 4, prefix: '2–', suffix: ' 周', label: '敏捷落地周期' },
+    { end: 1, suffix: ' 对 1', label: '专属顾问直接对接' },
+    { end: 50, suffix: '+', label: '深度服务企业客户' },
+    { end: 5, suffix: ' 步', label: '标准定制交付体系' },
   ]
   return (
     <footer className="relative overflow-hidden">
@@ -948,7 +993,9 @@ function Footer() {
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-5 text-center sm:grid-cols-3 lg:grid-cols-5">
           {stats.map((s) => (
             <div key={s.label}>
-              <div className="text-2xl font-bold md:text-3xl">{s.num}</div>
+              <div className="text-2xl font-bold md:text-3xl">
+                <CountUp end={s.end} prefix={s.prefix} suffix={s.suffix} />
+              </div>
               <div className="mt-1 text-xs text-white/75">{s.label}</div>
             </div>
           ))}

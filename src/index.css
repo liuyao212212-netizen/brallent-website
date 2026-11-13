@@ -76,3 +76,19 @@ body {
 }
 
 .float-slow { animation: float-slow 6s ease-in-out infinite; }
+
+/* ---- 星球轨道 ---- */
+@keyframes orbit {
+  to { transform: rotate(360deg); }
+}
+
+.orbit-ring { animation: orbit 22s linear infinite; }
+.orbit-ring-2 { animation: orbit 36s linear infinite reverse; }
+
+/* ---- 呼吸光晕 ---- */
+@keyframes breathe {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.breathe { animation: breathe 4s ease-in-out infinite; }
