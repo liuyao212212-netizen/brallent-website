@@ -102,6 +102,26 @@ function Icon({ name, className = 'h-5 w-5' }: { name: string; className?: strin
       <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z" />
     ),
     pin: <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0zM12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />,
+    target: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="12" r="4.5" />
+        <circle cx="12" cy="12" r="0.8" />
+      </>
+    ),
+    clock: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3.5 2" />
+      </>
+    ),
+    filecheck: (
+      <>
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <path d="M14 2v6h6" />
+        <path d="m9 15 2 2 4-4" />
+      </>
+    ),
   }
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -473,30 +493,26 @@ function Services() {
 
 /* ================= 三、为什么选择博瑞伦特 ================= */
 function Why() {
-  const rows = [
+  const items = [
     {
-      dim: '需求匹配度',
-      a: '只能套用固定模板，削足适履',
-      b: '方案庞大冗杂，过度设计',
-      c: '100% 围绕企业实际场景量身定制',
+      icon: 'target',
+      title: '100% 量身定制',
+      desc: '所有方案围绕企业实际场景与业务目标量身打造，拒绝模板套用，从需求诊断开始贴合真实业务。',
     },
     {
-      dim: '合作与起订门槛',
-      a: '看似低价，但隐性试错成本高',
-      b: '动辄设定高额预算或千件起订门槛',
-      c: '灵活起订，小批量试点与规模化大货皆可承接',
+      icon: 'layers',
+      title: '灵活合作门槛',
+      desc: '小批量试点与规模化大货皆可承接，从十余件到上千件灵活起订，合作方式可控不设高门槛。',
     },
     {
-      dim: '响应与交付周期',
-      a: '缺乏专业统筹，反复返工耗时',
-      b: '层层审批排期，动辄数月起步',
-      c: '资深团队直接驻点对接，周级敏捷推进',
+      icon: 'clock',
+      title: '周级敏捷推进',
+      desc: '资深团队直接驻点对接业务一线，需求当日响应，周级迭代快速见效，交付周期可预期。',
     },
     {
-      dim: '长期自主权',
-      a: '毫无沉淀，下次还得重新找人',
-      b: '形成技术或供应链依赖，被长期绑定',
-      c: '完整移交技术文档或专属制衣档案，随时自主复用',
+      icon: 'filecheck',
+      title: '长期自主可控',
+      desc: '完整移交技术文档或专属制衣档案，经验沉淀为你的资产，随时自主复用，不被供应商绑定。',
     },
   ]
   return (
@@ -505,58 +521,17 @@ function Why() {
       <div className="relative mx-auto max-w-6xl px-5">
         <SectionTitle
           title="为什么选择博瑞伦特"
-          desc="我们深知企业在进行定制采购时的核心考量：既要方案真正贴合业务、交付品质过硬，又希望沟通直接高效、合作门槛灵活可控。"
+          desc="从方案贴合度、合作门槛、交付效率到长期自主权，四个维度构成博瑞伦特的定制服务标准。"
         />
-        <Reveal>
-          <div className="hidden overflow-hidden rounded-3xl border border-line bg-white card-shadow md:block">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="bg-page text-mist">
-                  <th className="w-36 px-6 py-5 font-medium">对比维度</th>
-                  <th className="px-6 py-5 font-medium">通用标准品 / 普通作坊</th>
-                  <th className="px-6 py-5 font-medium">传统重型外包 / 大型代工厂</th>
-                  <th className="bg-brand/5 px-6 py-5 font-semibold text-brand">博瑞伦特 BRALLENT</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((r) => (
-                  <tr key={r.dim} className="border-t border-line/70">
-                    <td className="px-6 py-5 font-semibold text-navy">{r.dim}</td>
-                    <td className="px-6 py-5 text-mist">{r.a}</td>
-                    <td className="px-6 py-5 text-mist">{r.b}</td>
-                    <td className="bg-brand/5 px-6 py-5 font-medium text-navy">
-                      <span className="flex items-start gap-2">
-                        <span className="mt-0.5 shrink-0 text-brand">
-                          <CheckIcon />
-                        </span>
-                        {r.c}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Reveal>
-        <div className="space-y-4 md:hidden">
-          {rows.map((r, i) => (
-            <Reveal key={r.dim} delay={i * 80}>
-              <div className="rounded-2xl border border-line bg-white p-5 card-shadow">
-                <h4 className="font-semibold text-navy">{r.dim}</h4>
-                <div className="mt-3 space-y-2.5">
-                  <div className="rounded-xl bg-page px-4 py-3 text-sm text-mist">
-                    <span className="mr-2 text-xs text-mist/60">标准品/作坊</span>
-                    {r.a}
-                  </div>
-                  <div className="rounded-xl bg-page px-4 py-3 text-sm text-mist">
-                    <span className="mr-2 text-xs text-mist/60">重型外包/大厂</span>
-                    {r.b}
-                  </div>
-                  <div className="rounded-xl border border-brand/25 bg-sky-tint/70 px-4 py-3 text-sm font-medium text-navy">
-                    <span className="mr-2 text-xs font-semibold text-brand">BRALLENT</span>
-                    {r.c}
-                  </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((it, i) => (
+            <Reveal key={it.title} delay={i * 90}>
+              <div className="glow-card group flex h-full flex-col rounded-2xl border border-line bg-white p-7 card-shadow transition-all hover:-translate-y-1 hover:border-brand/40">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-sky-tint to-brand/10 text-brand transition-all group-hover:from-brand group-hover:to-brand-deep group-hover:text-white group-hover:shadow-lg group-hover:shadow-brand/25">
+                  <Icon name={it.icon} className="h-6 w-6" />
                 </div>
+                <h3 className="mt-5 text-lg font-semibold text-navy">{it.title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-mist">{it.desc}</p>
               </div>
             </Reveal>
           ))}
