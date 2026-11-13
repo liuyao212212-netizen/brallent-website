@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #0d6df4;
+  --color-brand-deep: #0a52c0;
+  --color-navy: #0e254c;
+  --color-navy-soft: #1d3a6b;
+  --color-ink: #17233b;
+  --color-mist: #5b6b85;
+  --color-sky-tint: #eef4fe;
+  --color-line: #dfe7f3;
+  --color-page: #f6f8fc;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", -apple-system, "Segoe UI", sans-serif;
+  background: var(--color-page);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(13, 109, 244, 0.18);
+}
+
+/* ---- 装饰元素 ---- */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(13, 109, 244, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 109, 244, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.glow-arc {
+  background: radial-gradient(ellipse 70% 45% at 50% 100%, rgba(13, 109, 244, 0.22), rgba(13, 109, 244, 0.06) 55%, transparent 75%);
+}
+
+.text-gradient {
+  background: linear-gradient(120deg, #0d6df4 20%, #4f9bff 55%, #0e254c 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.card-shadow {
+  box-shadow: 0 1px 2px rgba(14, 37, 76, 0.04), 0 12px 32px -12px rgba(14, 37, 76, 0.12);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ---- 入场动画 ---- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.in-view {
+  animation: rise 0.7s cubic-bezier(0.22, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-slow { animation: float-slow 6s ease-in-out infinite; }
