@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import logoUrl from './assets/Brallent_Logo.svg'
 
 /* ================= 工具 ================= */
 const mailto = (subject: string, body = '') =>
@@ -108,7 +109,7 @@ function Nav() {
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:h-[72px]">
         <a href="#top" className="flex items-center gap-2.5">
-          <img src="/Brallent_Logo.svg" alt="博瑞伦特 BRALLENT" className="h-9 w-auto" />
+          <img src={logoUrl} alt="博瑞伦特 BRALLENT" className="h-9 w-auto" />
         </a>
         <div className="hidden items-center gap-7 lg:flex">
           {links.map((l) => (
@@ -958,7 +959,7 @@ function Footer() {
           <div className="grid gap-10 md:grid-cols-3">
             <div>
               <div className="glass inline-flex rounded-xl p-3">
-                <img src="/Brallent_Logo.svg" alt="博瑞伦特 BRALLENT" className="h-8 w-auto" />
+                <img src={logoUrl} alt="博瑞伦特 BRALLENT" className="h-8 w-auto" />
               </div>
               <p className="mt-4 max-w-xs text-sm leading-relaxed">
                 博瑞伦特 BRALLENT · 企业定制服务专家。以 FDE 前线部署工程与企业服装定制双业务线，为成长型企业提供从构想到落地的深度定制服务。
