@@ -115,11 +115,14 @@ function SectionTitle({ title, desc }: { title: React.ReactNode; desc?: string }
   return (
     <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
       <Reveal>
-        <h2 className="text-[1.55rem] font-bold tracking-tight text-navy md:text-4xl">{title}</h2>
+        <div className="mx-auto mb-5 h-[3px] w-14 rounded-full bg-gradient-to-r from-brand via-[#6ea8ff] to-sky-300" />
+      </Reveal>
+      <Reveal delay={80}>
+        <h2 className="balance text-[1.55rem] font-bold tracking-tight text-navy md:text-4xl">{title}</h2>
       </Reveal>
       {desc && (
         <Reveal delay={120}>
-          <p className="mt-4 leading-relaxed text-mist">{desc}</p>
+          <p className="balance mt-4 leading-relaxed text-mist">{desc}</p>
         </Reveal>
       )}
     </div>
@@ -170,7 +173,13 @@ function Nav() {
         </a>
         <div className="hidden items-center gap-7 lg:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-[15px] font-medium text-ink/80 transition-colors hover:text-brand">
+            <a
+              key={l.href}
+              href={l.href}
+              className={`text-[15px] font-medium transition-colors ${
+                scrolled ? 'text-ink/80 hover:text-brand' : 'text-white/80 hover:text-white'
+              }`}
+            >
               {l.label}
             </a>
           ))}
@@ -183,7 +192,7 @@ function Nav() {
         </div>
         <button
           onClick={() => setOpen(!open)}
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-navy lg:hidden"
+          className={`flex h-10 w-10 items-center justify-center rounded-lg lg:hidden ${scrolled ? 'text-navy' : 'text-white'}`}
           aria-label="菜单"
         >
           <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
@@ -218,7 +227,7 @@ function Nav() {
   )
 }
 
-/* ================= 一、主视觉 ================= */
+/* ================= 一、主视觉（深空科技风） ================= */
 function Hero() {
   const metrics = [
     { end: 96, suffix: '%+', label: '定制项目按期与高标准交付率' },
@@ -226,62 +235,86 @@ function Hero() {
     { end: 1, suffix: ' 对 1', label: '资深顾问与交付团队直接对接' },
     { end: 50, suffix: '+', label: '深度服务的成长型与行业标杆企业' },
   ]
+  const stars = [
+    { l: '10%', t: '16%' }, { l: '26%', t: '7%' }, { l: '44%', t: '12%' }, { l: '61%', t: '5%' },
+    { l: '80%', t: '14%' }, { l: '91%', t: '34%' }, { l: '6%', t: '38%' }, { l: '69%', t: '24%' },
+    { l: '33%', t: '30%' }, { l: '87%', t: '52%' },
+  ]
   return (
-    <section id="top" className="relative overflow-hidden pt-16 md:pt-[72px]">
-      <div className="grid-bg absolute inset-0" />
-      {/* 顶部氛围光 */}
-      <div className="absolute left-1/2 top-0 h-[300px] w-[85%] -translate-x-1/2 rounded-full bg-brand/10 blur-[90px] md:h-[360px] md:w-[720px]" />
-      {/* 底部星球弧光 */}
-      <div className="pointer-events-none absolute bottom-[-58%] left-1/2 -translate-x-1/2 md:bottom-[-55%]">
-        <div className="relative h-[560px] w-[560px] md:h-[760px] md:w-[760px]">
+    <section id="top" className="relative overflow-hidden bg-[#071129] pt-16 md:pt-[72px]">
+      {/* 深空底色 */}
+      <div
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 36%, #10306b 0%, #0a1c42 48%, #071129 82%)' }}
+      />
+      {/* 网格（向下淡出） */}
+      <div
+        className="grid-bg-dark absolute inset-0 opacity-70"
+        style={{ WebkitMaskImage: 'linear-gradient(to bottom, black 18%, transparent 86%)', maskImage: 'linear-gradient(to bottom, black 18%, transparent 86%)' }}
+      />
+      {/* 星点 */}
+      {stars.map((s, i) => (
+        <span
+          key={i}
+          className="breathe absolute h-1 w-1 rounded-full bg-white/60"
+          style={{ left: s.l, top: s.t, animationDelay: `${(i % 5) * 0.7}s` }}
+        />
+      ))}
+      {/* 星球弧光与轨道 */}
+      <div className="pointer-events-none absolute left-1/2 top-[52%] -translate-x-1/2 md:top-[50%]">
+        <div className="relative h-[860px] w-[860px] md:h-[1080px] md:w-[1080px]">
+          <div
+            className="absolute inset-0 rounded-full border-t border-[#5b9dff]/50"
+            style={{ boxShadow: '0 -16px 70px rgba(13,109,244,0.5), inset 0 40px 90px rgba(13,109,244,0.22)' }}
+          />
           <div
             className="absolute inset-0 rounded-full"
-            style={{ background: 'radial-gradient(circle at 50% 0%, rgba(13,109,244,0.20), rgba(13,109,244,0.05) 45%, transparent 65%)' }}
+            style={{ background: 'radial-gradient(circle at 50% 10%, rgba(13,109,244,0.32), rgba(13,109,244,0.07) 40%, transparent 60%)' }}
           />
-          <div className="absolute inset-[16%] rounded-full border border-brand/12" />
-          <div className="absolute inset-[30%] rounded-full border border-dashed border-brand/20" />
-          <div className="orbit-ring absolute inset-[6%]">
-            <div className="breathe absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand shadow-[0_0_16px_rgba(13,109,244,0.9)]" />
+          <div className="absolute inset-[14%] rounded-full border border-white/[0.06]" />
+          <div className="absolute inset-[26%] rounded-full border border-dashed border-[#5b9dff]/20" />
+          <div className="orbit-ring absolute inset-[-5%]">
+            <div className="breathe absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-300 shadow-[0_0_16px_rgba(125,180,255,1)]" />
           </div>
-          <div className="orbit-ring-2 absolute inset-[24%]">
-            <div className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-navy/70 shadow-[0_0_10px_rgba(14,37,76,0.7)]" />
+          <div className="orbit-ring-2 absolute inset-[9%]">
+            <div className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand shadow-[0_0_12px_rgba(13,109,244,1)]" />
           </div>
         </div>
       </div>
-      <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-14 md:pb-28 md:pt-20">
+      <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-14 md:pb-36 md:pt-24">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <span className="glass inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 text-xs font-medium text-navy-soft shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 text-xs font-medium text-white/80 backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
               </span>
               博瑞伦特 BRALLENT · 企业定制服务专家
             </span>
           </Reveal>
           <Reveal delay={100}>
-            <h1 className="mt-6 text-[1.9rem] font-bold leading-[1.32] tracking-tight text-navy md:mt-7 md:text-[3.4rem] md:leading-[1.28]">
+            <h1 className="balance mt-6 text-[1.9rem] font-bold leading-[1.32] tracking-tight text-white md:mt-8 md:text-[3.4rem] md:leading-[1.28]">
               从专属构想到高标落地，
               <br />
-              做<span className="text-gradient">懂企业的定制伙伴</span>。
+              做<span className="bg-gradient-to-r from-sky-300 via-[#6ea8ff] to-[#3b82f6] bg-clip-text text-transparent">懂企业的定制伙伴</span>。
             </h1>
           </Reveal>
           <Reveal delay={200}>
-            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-mist md:mt-6 md:text-lg">
+            <p className="balance mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-white/65 md:mt-6 md:text-lg">
               深入企业真实场景，提供一对一专属设计与全流程品控交付。
             </p>
           </Reveal>
           <Reveal delay={300}>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-10">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:mt-10">
               <a
                 href="#contact"
-                className="w-full rounded-lg bg-brand px-8 py-3.5 text-center font-semibold text-white shadow-xl shadow-brand/30 transition-all hover:-translate-y-0.5 hover:bg-brand-deep sm:w-auto"
+                className="rounded-lg bg-brand px-7 py-3.5 text-[15px] font-semibold text-white shadow-[0_12px_32px_rgba(13,109,244,0.45)] transition-all hover:-translate-y-0.5 hover:bg-[#2f80ff]"
               >
                 预约 1 对 1 定制咨询
               </a>
               <a
                 href="#cases"
-                className="glass w-full rounded-lg border border-line px-8 py-3.5 text-center font-semibold text-navy shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/40 sm:w-auto"
+                className="rounded-lg border border-white/25 bg-white/[0.06] px-7 py-3.5 text-[15px] font-semibold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-white/45 hover:bg-white/10"
               >
                 浏览精选客户案例
               </a>
@@ -290,13 +323,16 @@ function Hero() {
         </div>
         {/* 四栏核心数据背书条 */}
         <Reveal delay={420}>
-          <div className="relative mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-3 md:mt-20 lg:grid-cols-4">
+          <div className="relative mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-3 md:mt-24 lg:grid-cols-4">
             {metrics.map((s) => (
-              <div key={s.label} className="glass rounded-2xl border border-line/80 px-4 py-5 text-center card-shadow">
-                <div className="text-[1.65rem] font-bold text-brand md:text-3xl">
+              <div
+                key={s.label}
+                className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-5 text-center backdrop-blur-sm transition-all hover:border-[#5b9dff]/40 hover:bg-white/[0.09]"
+              >
+                <div className="text-[1.65rem] font-bold text-[#7db4ff] md:text-3xl" style={{ textShadow: '0 0 18px rgba(13,109,244,0.55)' }}>
                   <CountUp end={s.end} prefix={s.prefix} suffix={s.suffix} />
                 </div>
-                <div className="mt-1.5 text-[11px] leading-relaxed text-mist md:text-xs">{s.label}</div>
+                <div className="balance mt-1.5 text-[11px] leading-snug text-white/60 md:text-xs">{s.label}</div>
               </div>
             ))}
           </div>

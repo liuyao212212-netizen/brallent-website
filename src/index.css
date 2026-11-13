@@ -35,6 +35,17 @@ body {
   background-size: 44px 44px;
 }
 
+.grid-bg-dark {
+  background-image:
+    linear-gradient(rgba(140, 180, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 180, 255, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.balance {
+  text-wrap: balance;
+}
+
 .glow-arc {
   background: radial-gradient(ellipse 70% 45% at 50% 100%, rgba(13, 109, 244, 0.22), rgba(13, 109, 244, 0.06) 55%, transparent 75%);
 }
