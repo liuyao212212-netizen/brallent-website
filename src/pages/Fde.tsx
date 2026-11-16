@@ -38,26 +38,26 @@ function Services() {
   const [open, setOpen] = useState(-1)
   return (
     <section className="border-t border-line bg-white">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
-        <SectionTitle title="服务内容" desc="四项服务覆盖从诊断到交接的完整链路，点击查看完整能力说明。" />
+      <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
+        <SectionTitle eyebrow="SERVICES" title="服务内容" desc="四项服务覆盖从诊断到交接的完整链路，点击查看完整能力说明。" />
         <div className="grid gap-6 sm:grid-cols-2">
           {items.map((it, i) => {
             const isOpen = open === i
             return (
               <Reveal key={it.title} delay={i * 60}>
                 <div
-                  className={`h-full rounded-2xl border bg-page p-7 transition-colors duration-200 md:p-8 ${
-                    isOpen ? 'border-brand/50' : 'border-line hover:border-brand/40'
+                  className={`h-full rounded-[22px] bg-[#f4f9ff] p-7 transition-[transform,box-shadow] duration-500 md:p-8 ${
+                    isOpen ? 'shadow-[0_18px_40px_#1b34520d]' : 'hover:-translate-y-1 hover:shadow-[0_18px_40px_#1b34520a]'
                   }`}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-sky-tint text-brand">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand">
                     <Icon name={it.icon} className="h-5 w-5" />
                   </div>
-                  <h3 className="mt-5 text-lg font-bold text-navy">{it.title}</h3>
-                  <p className="mt-2 text-[15px] text-mist">{it.brief}</p>
+                  <h3 className="mt-5 text-[1.15rem] font-medium tracking-[-0.3px] text-navy">{it.title}</h3>
+                  <p className="mt-2 text-[13.5px] leading-[1.9] text-mist">{it.brief}</p>
                   <button
                     onClick={() => setOpen(isOpen ? -1 : i)}
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors duration-200 hover:text-brand-deep"
+                    className="mt-4 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand transition-colors duration-200 hover:text-brand-deep"
                     aria-expanded={isOpen}
                   >
                     {isOpen ? '收起详情' : '展开详情'}
@@ -66,7 +66,7 @@ function Services() {
                     </svg>
                   </button>
                   {isOpen && (
-                    <p className="mt-4 border-t border-line pt-4 text-[15px] leading-relaxed text-ink/85">{it.detail}</p>
+                    <p className="mt-4 border-t border-[#dfe5ee] pt-4 text-[13.5px] leading-[1.95] text-ink/85">{it.detail}</p>
                   )}
                 </div>
               </Reveal>
@@ -89,15 +89,15 @@ function Process() {
   ]
   return (
     <section className="border-t border-line">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
-        <SectionTitle title="合作流程" desc="每一步都有明确交付物与确认节点，让定制项目可预期、可管理。" />
+      <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
+        <SectionTitle eyebrow="PROCESS" title="合作流程" desc="每一步都有明确交付物与确认节点，让定制项目可预期、可管理。" />
         <ol className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
           {steps.map((s, i) => (
             <Reveal key={s.no} delay={i * 60}>
-              <li className="border-l-2 border-brand/40 pl-5">
-                <div className="text-sm font-bold tracking-wider text-brand">{s.no}</div>
-                <h3 className="mt-2 font-bold text-navy">{s.name}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-mist">{s.desc}</p>
+              <li className="border-l border-[#cbdff1] pl-5">
+                <div className="text-[11px] font-medium tracking-[1.6px] text-brand">{s.no}</div>
+                <h3 className="mt-2 text-[15px] font-medium text-navy">{s.name}</h3>
+                <p className="mt-1.5 text-[12.5px] leading-[1.85] text-mist">{s.desc}</p>
               </li>
             </Reveal>
           ))}
@@ -112,14 +112,14 @@ function Delivery() {
   const deliverables = ['可运行的系统', '技术文档', '操作手册', '实战培训']
   return (
     <section className="border-t border-line bg-white">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
+      <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionTitle align="left" title="交付内容" />
+            <SectionTitle align="left" eyebrow="DELIVERY" title="交付内容" />
             <div className="grid grid-cols-2 gap-4">
               {deliverables.map((d, i) => (
                 <Reveal key={d} delay={i * 60}>
-                  <div className="rounded-xl border border-line bg-page px-5 py-4 text-center text-[15px] font-semibold text-navy">
+                  <div className="rounded-full border border-[#cfdaeb] bg-white px-5 py-3.5 text-center text-[13px] font-medium text-navy">
                     {d}
                   </div>
                 </Reveal>
@@ -127,9 +127,9 @@ function Delivery() {
             </div>
           </div>
           <div>
-            <SectionTitle align="left" title="数据安全与部署" />
+            <SectionTitle align="left" eyebrow="SECURITY" title="数据安全与部署" />
             <Reveal>
-              <p className="leading-relaxed text-ink/85">
+              <p className="text-[13.5px] leading-[1.95] text-mist">
                 支持企业私有化及专有云环境部署，严格遵循企业级角色权限隔离（RBAC）与数据脱敏规范；所有定制代码与架构文档产权归属清晰，交付即移交完整控制权。
               </p>
             </Reveal>
@@ -169,8 +169,8 @@ export default function Fde() {
       <Services />
       <Process />
       <section id="fde-cases" className="border-t border-line">
-        <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
-          <SectionTitle title="FDE 客户案例" desc="两项代表性交付记录，点击查看包含背景、挑战、方案与全部数据的完整案例。" />
+        <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
+          <SectionTitle eyebrow="CASES" title="FDE 客户案例" desc="两项代表性交付记录，点击查看包含背景、挑战、方案与全部数据的完整案例。" />
           <div className="border-t border-line">
             {cases.map((c, i) => (
               <CaseItem key={c.title} c={c} last={i === cases.length - 1} />
@@ -180,9 +180,9 @@ export default function Fde() {
       </section>
       <Delivery />
       <section className="border-t border-line">
-        <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
+        <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
           <div className="mx-auto max-w-3xl">
-            <SectionTitle title="常见问题" />
+            <SectionTitle eyebrow="FAQ" title="常见问题" />
             <Reveal>
               <FaqList items={faq} />
             </Reveal>

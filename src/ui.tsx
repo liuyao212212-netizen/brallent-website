@@ -108,15 +108,33 @@ export function CheckIcon({ className = 'h-4 w-4' }: { className?: string }) {
 }
 
 /* ================= 区块标题（靠字重字号建层级） ================= */
-export function SectionTitle({ title, desc, align = 'center' }: { title: string; desc?: string; align?: 'center' | 'left' }) {
+export function SectionTitle({
+  title,
+  desc,
+  align = 'center',
+  eyebrow,
+}: {
+  title: string
+  desc?: string
+  align?: 'center' | 'left'
+  eyebrow?: string
+}) {
   return (
-    <div className={align === 'center' ? 'mx-auto mb-12 max-w-2xl text-center md:mb-16' : 'mb-12 max-w-2xl md:mb-16'}>
+    <div className={align === 'center' ? 'mx-auto mb-12 max-w-2xl text-center md:mb-14' : 'mb-12 max-w-2xl md:mb-14'}>
+      {eyebrow && (
+        <Reveal>
+          <p className={`eyebrow mb-4${align === 'center' ? ' flex items-center justify-center gap-2.5' : ''}`}>
+            {align === 'center' && <span className="small-mark" aria-hidden="true" />}
+            {eyebrow}
+          </p>
+        </Reveal>
+      )}
       <Reveal>
-        <h2 className="text-[1.65rem] font-bold leading-snug tracking-tight text-navy md:text-4xl">{title}</h2>
+        <h2 className="text-[1.7rem] font-medium leading-[1.35] tracking-[-1.2px] text-navy md:text-[2.1rem]">{title}</h2>
       </Reveal>
       {desc && (
         <Reveal delay={100}>
-          <p className="mt-4 leading-relaxed text-mist">{desc}</p>
+          <p className="mt-4 text-[13.5px] leading-[1.95] text-mist md:text-sm">{desc}</p>
         </Reveal>
       )}
     </div>
@@ -138,42 +156,57 @@ export function PageHero({
   secondary?: { label: string; onClick?: () => void; href?: string }
 }) {
   const btnCls =
-    'inline-flex items-center justify-center rounded-lg px-6 py-3 text-[15px] font-semibold transition-colors duration-200'
+    'inline-flex items-center justify-center gap-3 rounded-full px-6 py-3.5 text-[13px] font-medium transition-all duration-300 min-h-[50px]'
   return (
-    <div className="mx-auto max-w-[1180px] px-5 pb-16 pt-32 md:px-6 md:pb-24 md:pt-44">
+    <div className="mx-auto w-[min(1240px,calc(100%-40px))] pb-16 pt-[126px] md:w-[min(1240px,calc(100%-100px))] md:pb-24 md:pt-[176px]">
       {eyebrow && (
         <Reveal>
-          <p className="text-sm font-semibold tracking-widest text-brand">{eyebrow}</p>
+          <p className="eyebrow flex items-center gap-2.5">
+            <span className="small-mark" aria-hidden="true" />
+            {eyebrow}
+          </p>
         </Reveal>
       )}
       <Reveal delay={60}>
-        <h1 className="mt-4 max-w-3xl whitespace-pre-line text-[2rem] font-bold leading-[1.3] tracking-tight text-navy md:text-6xl md:leading-[1.22]">
+        <h1 className="mt-6 max-w-4xl whitespace-pre-line text-[clamp(2rem,4.4vw,3.55rem)] font-medium leading-[1.28] tracking-[-2px] text-navy">
           {title}
         </h1>
       </Reveal>
       <Reveal delay={120}>
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-mist md:text-lg">{desc}</p>
+        <p className="mt-6 max-w-xl text-[14.5px] leading-[1.95] text-mist">{desc}</p>
       </Reveal>
       {(primary || secondary) && (
         <Reveal delay={180}>
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="mt-9 flex flex-wrap items-center gap-4">
             {primary &&
               (primary.href ? (
-                <a href={primary.href} className={`${btnCls} bg-brand text-white hover:bg-brand-deep`}>
+                <a
+                  href={primary.href}
+                  className={`${btnCls} bg-brand text-white shadow-[0_8px_25px_#1267f225] hover:-translate-y-0.5 hover:bg-brand-deep`}
+                >
                   {primary.label}
+                  <span className="arrow" aria-hidden="true">
+                    →
+                  </span>
                 </a>
               ) : (
-                <button onClick={primary.onClick} className={`${btnCls} bg-brand text-white hover:bg-brand-deep`}>
+                <button
+                  onClick={primary.onClick}
+                  className={`${btnCls} bg-brand text-white shadow-[0_8px_25px_#1267f225] hover:-translate-y-0.5 hover:bg-brand-deep`}
+                >
                   {primary.label}
+                  <span className="arrow" aria-hidden="true">
+                    →
+                  </span>
                 </button>
               ))}
             {secondary &&
               (secondary.href ? (
-                <a href={secondary.href} className={`${btnCls} border border-navy/15 text-navy hover:border-brand/50 hover:text-brand`}>
+                <a href={secondary.href} className={`${btnCls} border border-[#cfdaeb] text-navy hover:border-brand/40 hover:text-brand`}>
                   {secondary.label}
                 </a>
               ) : (
-                <button onClick={secondary.onClick} className={`${btnCls} border border-navy/15 text-navy hover:border-brand/50 hover:text-brand`}>
+                <button onClick={secondary.onClick} className={`${btnCls} border border-[#cfdaeb] text-navy hover:border-brand/40 hover:text-brand`}>
                   {secondary.label}
                 </button>
               ))}
@@ -196,7 +229,7 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
             className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors duration-200 hover:text-brand"
             aria-expanded={open === i}
           >
-            <span className="font-semibold text-navy">{f.q}</span>
+            <span className="text-[13.5px] font-medium text-navy">{f.q}</span>
             <span className={`shrink-0 text-lg text-mist transition-transform duration-200 ${open === i ? 'rotate-45' : ''}`} aria-hidden="true">
               +
             </span>
@@ -221,14 +254,14 @@ export function CaseItem({ c, last = false }: { c: Case; last?: boolean }) {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-2xl">
             <span className="text-xs font-semibold tracking-wider text-brand">{c.typeLabel}</span>
-            <h3 className="mt-2 text-xl font-bold text-navy md:text-2xl">{c.shortTitle}</h3>
+            <h3 className="mt-2 text-[1.3rem] font-medium tracking-[-0.4px] text-navy md:text-[1.45rem]">{c.shortTitle}</h3>
             <p className="mt-2.5 leading-relaxed text-mist">{c.summary}</p>
           </div>
           <div className="flex shrink-0 gap-8">
             {c.keyImpact.map((m) => (
               <div key={m.label}>
-                <div className="text-2xl font-bold text-navy md:text-[1.75rem]">{m.num}</div>
-                <div className="mt-1 max-w-[150px] text-xs leading-snug text-mist">{m.label}</div>
+                <div className="text-[1.5rem] font-medium tracking-[-0.6px] text-navy md:text-[1.7rem]">{m.num}</div>
+                <div className="mt-1 max-w-[175px] text-[11.5px] leading-snug text-mist">{m.label}</div>
               </div>
             ))}
           </div>
@@ -275,7 +308,7 @@ export function CaseItem({ c, last = false }: { c: Case; last?: boolean }) {
               <ul className="mt-2 space-y-2.5">
                 {c.impact.map((m) => (
                   <li key={m.label} className="flex items-baseline gap-3 text-[15px]">
-                    <span className="shrink-0 font-bold text-brand">{m.num}</span>
+                    <span className="shrink-0 font-medium text-brand">{m.num}</span>
                     <span className="text-ink/85">{m.label}</span>
                   </li>
                 ))}
@@ -309,27 +342,32 @@ export function ContactCta({
   mailBody: string
 }) {
   return (
-    <div className="border-t border-line bg-white">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
-        <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-          <div>
-            <Reveal>
-              <h2 className="max-w-xl text-2xl font-bold leading-snug text-navy md:text-3xl">{title}</h2>
-            </Reveal>
-            <Reveal delay={80}>
-              <p className="mt-3 max-w-lg leading-relaxed text-mist">{desc}</p>
-            </Reveal>
-          </div>
-          <Reveal delay={140}>
-            <a
-              href={mailto(mailSubject, mailBody)}
-              className="inline-flex shrink-0 items-center justify-center rounded-lg bg-brand px-7 py-3.5 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-brand-deep"
-            >
-              {btnLabel}
-            </a>
+    <section className="contact">
+      <div className="contact-glow" aria-hidden="true" />
+      <div className="wrap">
+        <div className="contact-content">
+          <Reveal>
+            <div>
+              <p className="eyebrow">CONTACT</p>
+              <h2>{title}</h2>
+              <p>{desc}</p>
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div className="contact-actions">
+              <a className="button white" href={mailto(mailSubject, mailBody)}>
+                {btnLabel}
+                <span className="arrow" aria-hidden="true">
+                  →
+                </span>
+              </a>
+              <a className="contact-mail" href="mailto:rose@brallent.cn">
+                rose@brallent.cn　·　+86 15802439194
+              </a>
+            </div>
           </Reveal>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

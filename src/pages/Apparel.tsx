@@ -11,9 +11,9 @@ function Promises() {
   const items = ['免费设计 · 无限次修改', '50% 定金 · 打样确认后排产', '灵活起订 · 逐件全检']
   return (
     <div className="border-y border-line bg-white">
-      <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-center gap-x-10 gap-y-4 px-5 py-7 md:px-6">
+      <div className="mx-auto flex w-[min(1240px,calc(100%-40px))] flex-wrap items-center justify-center gap-x-10 gap-y-4 py-6 md:w-[min(1240px,calc(100%-100px))]">
         {items.map((p) => (
-          <div key={p} className="flex items-center gap-2 text-[15px] font-semibold text-navy">
+          <div key={p} className="flex items-center gap-2 text-[13px] font-medium text-navy">
             <span className="text-brand">
               <Icon name="shield" className="h-4 w-4" />
             </span>
@@ -46,23 +46,24 @@ function Scenes() {
   ]
   return (
     <section className="border-t border-line">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
-        <SectionTitle title="应用场景" desc="三组典型场景，均享受同等严苛的版型与品控标准。" />
+      <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
+        <SectionTitle eyebrow="SCENARIOS" title="应用场景" desc="三组典型场景，均享受同等严苛的版型与品控标准。" />
         <div className="grid gap-10 md:grid-cols-3">
           {scenes.map((s, i) => (
             <Reveal key={s.title} delay={i * 80}>
               <div>
-                {/* 图片位：待提供实物图后替换 */}
-                <div className="flex aspect-[4/3] items-center justify-center rounded-xl border border-dashed border-line bg-white">
-                  <span className="text-xs text-mist/60">案例实拍图 · 即将补充</span>
+                {/* 图片位：待 Rose 提供实物图后替换 */}
+                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[22px] bg-[linear-gradient(130deg,#f4f9ff,#e6f2ff_55%,#d5eaff)]">
+                  <span className="text-[10px] tracking-[2px] text-[#7d90ad]">IMAGE PENDING</span>
+                  <span className="absolute left-6 top-5 text-[9px] tracking-[2px] text-[#8a9bb5]">0{i + 1} / CASE</span>
                 </div>
                 <div className="mt-5 flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-tint text-brand">
-                    <Icon name={s.icon} className="h-4.5 w-4.5" />
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f4f9ff] text-brand">
+                    <Icon name={s.icon} className="h-4 w-4" />
                   </span>
-                  <h3 className="font-bold text-navy">{s.title}</h3>
+                  <h3 className="text-[15px] font-medium text-navy">{s.title}</h3>
                 </div>
-                <p className="mt-2.5 text-sm leading-relaxed text-mist">{s.desc}</p>
+                <p className="mt-2.5 text-[13px] leading-[1.9] text-mist">{s.desc}</p>
               </div>
             </Reveal>
           ))}
@@ -83,15 +84,15 @@ function Process() {
   ]
   return (
     <section className="border-t border-line bg-white">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
-        <SectionTitle title="定制流程" desc="付款、打样与排产顺序按真实业务流程排列，每一步透明可查。" />
+      <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
+        <SectionTitle eyebrow="PROCESS" title="定制流程" desc="付款、打样与排产顺序按真实业务流程排列，每一步透明可查。" />
         <ol className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
           {steps.map((s, i) => (
             <Reveal key={s.no} delay={i * 60}>
-              <li className="border-l-2 border-brand/40 pl-5">
-                <div className="text-sm font-bold tracking-wider text-brand">{s.no}</div>
-                <h3 className="mt-2 font-bold text-navy">{s.name}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-mist">{s.desc}</p>
+              <li className="border-l border-[#cbdff1] pl-5">
+                <div className="text-[11px] font-medium tracking-[1.6px] text-brand">{s.no}</div>
+                <h3 className="mt-2 text-[15px] font-medium text-navy">{s.name}</h3>
+                <p className="mt-1.5 text-[12.5px] leading-[1.85] text-mist">{s.desc}</p>
               </li>
             </Reveal>
           ))}
@@ -105,20 +106,20 @@ function Process() {
 function Quality() {
   return (
     <section className="border-t border-line">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
+      <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionTitle align="left" title="供应链与品控标准" />
+            <SectionTitle align="left" eyebrow="QUALITY" title="供应链与品控标准" />
             <Reveal>
-              <p className="leading-relaxed text-ink/85">
+              <p className="text-[13.5px] leading-[1.95] text-mist">
                 深度合作一线品牌代工级纺织印染与成衣制造基地，覆盖环保活性印染、高密万针刺绣、特种丝网印及环保包装全工艺链，所有贴身衣物均符合国家 A/B 类纺织品安全标准。
               </p>
             </Reveal>
           </div>
           <div>
-            <SectionTitle align="left" title="专属制衣档案" />
+            <SectionTitle align="left" eyebrow="ARCHIVE" title="专属制衣档案" />
             <Reveal>
-              <p className="leading-relaxed text-ink/85">
+              <p className="text-[13.5px] leading-[1.95] text-mist">
                 为每位客户锁定品牌标准色号、版型数据与工艺参数，建立专属企业制衣档案——后续新员工入职或季度小批量补单无需从头沟通，实现极速快反。
               </p>
             </Reveal>
@@ -159,8 +160,8 @@ export default function Apparel() {
       <Scenes />
       <Process />
       <section id="apparel-cases" className="border-t border-line">
-        <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
-          <SectionTitle title="服装定制案例" desc="两项代表性交付记录，点击查看包含背景、挑战、方案与全部数据的完整案例。" />
+        <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
+          <SectionTitle eyebrow="CASES" title="服装定制案例" desc="两项代表性交付记录，点击查看包含背景、挑战、方案与全部数据的完整案例。" />
           <div className="border-t border-line">
             {cases.map((c, i) => (
               <CaseItem key={c.title} c={c} last={i === cases.length - 1} />
@@ -170,9 +171,9 @@ export default function Apparel() {
       </section>
       <Quality />
       <section className="border-t border-line bg-white">
-        <div className="mx-auto max-w-[1180px] px-5 py-20 md:px-6 md:py-24">
+        <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
           <div className="mx-auto max-w-3xl">
-            <SectionTitle title="常见问题" />
+            <SectionTitle eyebrow="FAQ" title="常见问题" />
             <Reveal>
               <FaqList items={faq} />
             </Reveal>
