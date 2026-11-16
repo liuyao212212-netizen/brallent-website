@@ -1,5 +1,6 @@
 import { CASES } from '../data'
 import { Reveal, SectionTitle, PageHero, Icon, FaqList, CaseItem, ContactCta, scrollToId, mailto } from '../ui'
+import { ServiceField } from '../LightField'
 
 const APPAREL_MAIL = {
   subject: '【企业服装定制】获取免费设计方案',
@@ -30,16 +31,19 @@ function Scenes() {
   const scenes = [
     {
       icon: 'shirt',
+      mark: 'TEAM',
       title: '团队文化衫与制服',
       desc: '高克重精梳棉、科技速干、商务珠地网眼及重磅卫衣/冲锋衣面料，标准与宽松双版型体系。',
     },
     {
       icon: 'flag',
+      mark: 'EVENT',
       title: '展会与品牌活动',
       desc: '围绕活动主视觉系统化延展设计，让参展与主办团队拥有统一、出众的专业辨识度。',
     },
     {
       icon: 'gift',
+      mark: 'GIFT',
       title: '入职与商务礼赠',
       desc: '支持专属织唛、品牌吊牌、万针刺绣与礼盒包装，强化归属感与礼赠记忆点。',
     },
@@ -47,15 +51,18 @@ function Scenes() {
   return (
     <section className="border-t border-line">
       <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
-        <SectionTitle eyebrow="SCENARIOS" title="应用场景" desc="三组典型场景，均享受同等严苛的版型与品控标准。" />
+        <SectionTitle eyebrow="SCENARIOS" title="应用场景" desc="三组典型场景，均按同一套版型与品控标准交付。" />
         <div className="grid gap-10 md:grid-cols-3">
           {scenes.map((s, i) => (
             <Reveal key={s.title} delay={i * 80}>
               <div>
-                {/* 图片位：待 Rose 提供实物图后替换 */}
-                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[22px] bg-[linear-gradient(130deg,#f4f9ff,#e6f2ff_55%,#d5eaff)]">
-                  <span className="text-[10px] tracking-[2px] text-[#7d90ad]">IMAGE PENDING</span>
-                  <span className="absolute left-6 top-5 text-[9px] tracking-[2px] text-[#8a9bb5]">0{i + 1} / CASE</span>
+                {/* 图片位：待 Rose 提供实物图后替换为实拍照片 */}
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] bg-[linear-gradient(130deg,#f4f9ff,#e6f2ff_55%,#d5eaff)]">
+                  <div className="absolute inset-0 opacity-70">
+                    <ServiceField type="fabric" />
+                  </div>
+                  <span className="absolute left-6 top-5 text-[9px] tracking-[2px] text-[#8a9bb5]">0{i + 1} / SCENARIO</span>
+                  <span className="absolute bottom-5 right-6 text-[30px] font-normal tracking-[6px] text-[#31577c]/30">{s.mark}</span>
                 </div>
                 <div className="mt-5 flex items-center gap-3">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f4f9ff] text-brand">
@@ -85,7 +92,7 @@ function Process() {
   return (
     <section className="border-t border-line bg-white">
       <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
-        <SectionTitle eyebrow="PROCESS" title="定制流程" desc="付款、打样与排产顺序按真实业务流程排列，每一步透明可查。" />
+        <SectionTitle eyebrow="PROCESS" title="定制流程" desc="从需求确认到成衣交付，关键环节逐步确认。" />
         <ol className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
           {steps.map((s, i) => (
             <Reveal key={s.no} delay={i * 60}>
@@ -155,13 +162,23 @@ export default function Apparel() {
         desc="为团队、展会与商务礼赠，提供从专属设计到成衣交付的服装定制服务。"
         primary={{ label: '获取免费设计', href: mailto(APPAREL_MAIL.subject, APPAREL_MAIL.body) }}
         secondary={{ label: '查看服装案例', onClick: () => scrollToId('apparel-cases') }}
+        visual={
+          <div className="relative h-full w-full bg-[linear-gradient(125deg,#f8fbff,#edf4fa_50%,#d7e7f5)]">
+            <ServiceField type="fabric" />
+            <div className="apparel-wordmark" aria-hidden="true">
+              <strong>BRALLENT</strong>
+              <small>CUSTOM APPAREL</small>
+            </div>
+            <span className="absolute left-6 top-5 z-10 text-[9px] tracking-[2px] text-[#6e8ca7]">APPAREL / FIELD</span>
+          </div>
+        }
       />
       <Promises />
       <Scenes />
       <Process />
       <section id="apparel-cases" className="border-t border-line">
         <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
-          <SectionTitle eyebrow="CASES" title="服装定制案例" desc="两项代表性交付记录，点击查看包含背景、挑战、方案与全部数据的完整案例。" />
+          <SectionTitle eyebrow="CASES" title="服装定制案例" desc="两项代表性交付记录，点击查看项目背景、实施方案与交付成果。" />
           <div className="border-t border-line">
             {cases.map((c, i) => (
               <CaseItem key={c.title} c={c} last={i === cases.length - 1} />

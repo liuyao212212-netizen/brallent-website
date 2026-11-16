@@ -242,7 +242,7 @@ export function ServiceField({ type }: { type: 'digital' | 'fabric' }) {
             if (x === -5) ctx.moveTo(x, yy)
             else ctx.lineTo(x, yy)
           }
-          ctx.strokeStyle = j % 3 === 0 ? 'rgba(255,255,255,.4)' : 'rgba(82,129,168,.13)'
+          ctx.strokeStyle = j % 3 === 0 ? 'rgba(255,255,255,.55)' : 'rgba(70,112,150,.2)'
           ctx.lineWidth = 0.8
           ctx.stroke()
         }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { CASES } from '../data'
 import { Reveal, SectionTitle, PageHero, Icon, FaqList, CaseItem, ContactCta, scrollToId, mailto } from '../ui'
+import { ServiceField } from '../LightField'
 
 const FDE_MAIL = {
   subject: '【FDE 定制咨询】预约 1 对 1 沟通',
@@ -146,7 +147,7 @@ export default function Fde() {
   const faq = [
     {
       q: 'FDE 定制服务和传统软件外包公司有什么区别？',
-      a: '传统外包是「你给需求文档，他们闭门开发，几个月后交给你一个未必贴合实际的系统」。博瑞伦特的 FDE 工程师直接嵌入你的业务一线，先做场景诊断，周级敏捷推进并随真实业务反馈快速迭代；同时在交付过程中手把手赋能你的内部团队，确保系统长期可用、可控。',
+      a: '我们从业务现场和实际流程出发，与客户共同确定优先场景，通过原型验证、持续迭代、部署培训推进项目，并完成文档与系统移交，确保系统长期可用、可控。',
     },
     {
       q: 'FDE 只适合做营销类系统吗？',
@@ -162,15 +163,21 @@ export default function Fde() {
       <PageHero
         eyebrow="FDE · 前线部署工程"
         title={'让系统贴合业务，\n让团队更高效。'}
-        desc="深入业务一线，定制 AI 工作流、知识系统与业务工具，并完成培训与交接。"
+        desc="围绕业务现场定制 AI 工作流、知识系统与业务工具，并完成培训与交接。"
         primary={{ label: '预约 FDE 咨询', href: mailto(FDE_MAIL.subject, FDE_MAIL.body) }}
         secondary={{ label: '查看 FDE 案例', onClick: () => scrollToId('fde-cases') }}
+        visual={
+          <div className="relative h-full w-full bg-[linear-gradient(130deg,#ecf8ff,#d5eaff_45%,#bcdfff)]">
+            <ServiceField type="digital" />
+            <span className="absolute left-6 top-5 z-10 text-[9px] tracking-[2px] text-[#697da4]">WORKFLOW / FIELD</span>
+          </div>
+        }
       />
       <Services />
       <Process />
       <section id="fde-cases" className="border-t border-line">
         <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
-          <SectionTitle eyebrow="CASES" title="FDE 客户案例" desc="两项代表性交付记录，点击查看包含背景、挑战、方案与全部数据的完整案例。" />
+          <SectionTitle eyebrow="CASES" title="FDE 客户案例" desc="两项代表性交付记录，点击查看项目背景、实施方案与交付成果。" />
           <div className="border-t border-line">
             {cases.map((c, i) => (
               <CaseItem key={c.title} c={c} last={i === cases.length - 1} />

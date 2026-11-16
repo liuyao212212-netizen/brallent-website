@@ -148,33 +148,40 @@ export function PageHero({
   desc,
   primary,
   secondary,
+  visual,
 }: {
   eyebrow?: string
   title: string
   desc: string
   primary?: { label: string; onClick?: () => void; href?: string }
   secondary?: { label: string; onClick?: () => void; href?: string }
+  visual?: React.ReactNode
 }) {
   const btnCls =
     'inline-flex items-center justify-center gap-3 rounded-full px-6 py-3.5 text-[13px] font-medium transition-all duration-300 min-h-[50px]'
   return (
-    <div className="mx-auto w-[min(1240px,calc(100%-40px))] pb-16 pt-[126px] md:w-[min(1240px,calc(100%-100px))] md:pb-24 md:pt-[176px]">
-      {eyebrow && (
-        <Reveal>
-          <p className="eyebrow flex items-center gap-2.5">
-            <span className="small-mark" aria-hidden="true" />
-            {eyebrow}
-          </p>
+    <div
+      className={`mx-auto grid w-[min(1240px,calc(100%-40px))] gap-12 pb-16 pt-[126px] md:w-[min(1240px,calc(100%-100px))] md:pb-24 md:pt-[176px]${
+        visual ? ' lg:grid-cols-[1.1fr_1fr] lg:items-center' : ''
+      }`}
+    >
+      <div>
+        {eyebrow && (
+          <Reveal>
+            <p className="eyebrow flex items-center gap-2.5">
+              <span className="small-mark" aria-hidden="true" />
+              {eyebrow}
+            </p>
+          </Reveal>
+        )}
+        <Reveal delay={60}>
+          <h1 className="mt-6 max-w-4xl whitespace-pre-line text-[clamp(2rem,4.4vw,3.55rem)] font-medium leading-[1.28] tracking-[-2px] text-navy">
+            {title}
+          </h1>
         </Reveal>
-      )}
-      <Reveal delay={60}>
-        <h1 className="mt-6 max-w-4xl whitespace-pre-line text-[clamp(2rem,4.4vw,3.55rem)] font-medium leading-[1.28] tracking-[-2px] text-navy">
-          {title}
-        </h1>
-      </Reveal>
-      <Reveal delay={120}>
-        <p className="mt-6 max-w-xl text-[14.5px] leading-[1.95] text-mist">{desc}</p>
-      </Reveal>
+        <Reveal delay={120}>
+          <p className="mt-6 max-w-xl text-[14.5px] leading-[1.95] text-mist">{desc}</p>
+        </Reveal>
       {(primary || secondary) && (
         <Reveal delay={180}>
           <div className="mt-9 flex flex-wrap items-center gap-4">
@@ -211,6 +218,12 @@ export function PageHero({
                 </button>
               ))}
           </div>
+        </Reveal>
+      )}
+      </div>
+      {visual && (
+        <Reveal delay={140}>
+          <div className="relative hidden h-[280px] overflow-hidden rounded-[22px] lg:block">{visual}</div>
         </Reveal>
       )}
     </div>

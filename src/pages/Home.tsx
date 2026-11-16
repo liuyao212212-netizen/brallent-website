@@ -13,14 +13,14 @@ function Hero({ paused, onToggle }: { paused: boolean; onToggle: () => void }) {
           博瑞伦特 BRALLENT · 企业定制服务专家
         </p>
         <h1>
-          从专属构想到高标落地，
+          定制业务系统，
           <br />
-          做懂企业的<span className="accent">定制伙伴。</span>
+          塑造<span className="accent">团队形象。</span>
         </h1>
         <p className="hero-description">
-          深入企业真实场景，提供一对一专属设计与全流程品控交付。
+          博瑞伦特提供 FDE 系统与工作流定制、企业服装定制服务，
           <br />
-          FDE 系统与工作流定制 · 企业服装定制
+          分别满足企业的业务效率与品牌形象需求。
         </p>
         <div className="hero-actions">
           <button className="button dark" onClick={() => scrollToId('services')}>
@@ -43,7 +43,6 @@ function Hero({ paused, onToggle }: { paused: boolean; onToggle: () => void }) {
 
       <HeroArt paused={paused} />
 
-      <div className="art-caption">LIGHT FIELD · 实时生成的流动光场</div>
       <button className="motion-control" onClick={onToggle} aria-pressed={paused}>
         {paused ? '播放动效' : '暂停动效'}
       </button>
@@ -83,7 +82,7 @@ function Services() {
               各自深耕。
             </h2>
           </div>
-          <p>两项业务各自独立，可按需单独委托，分别由专属团队负责。</p>
+          <p>两项业务各自独立，可按需单独委托，分别由独立团队负责。</p>
         </div>
         <div className="services-grid">
           <Reveal>
@@ -95,7 +94,7 @@ function Services() {
               <div className="service-title">
                 <div className="service-index">01 — FDE 前线部署工程</div>
                 <h3>FDE 定制</h3>
-                <p>从业务诊断到系统落地，打造贴合实际流程的工作流与知识系统，让工具真正服务于人。</p>
+                <p>从业务诊断到系统落地，打造贴合实际流程的工作流与知识系统；核心业务场景首版 2–4 周交付。</p>
                 <div className="service-tags">
                   <span>业务诊断</span>
                   <span>系统与工作流</span>
@@ -144,19 +143,17 @@ function Services() {
   )
 }
 
-/* ================= 公司数据（静态展示，含口径） ================= */
+/* ================= 公司数据（含统计范围） ================= */
 function Stats() {
   const stats = [
-    { num: '96%+', label: '定制项目按期与高标准交付率', note: '统计口径：已完成定制项目' },
-    { num: '2–4 周', label: '核心定制需求敏捷落地周期', note: '统计口径：核心业务场景首版落地' },
-    { num: '1 对 1', label: '资深顾问与交付团队直接对接', note: '统计口径：每个委托项目' },
-    { num: '50+', label: '深度服务的成长型与行业标杆企业', note: '统计口径：累计服务客户' },
+    { num: '96%+', label: '定制项目按期交付率', note: '统计范围：已完成定制项目' },
+    { num: '50+', label: '累计服务的企业客户', note: '统计范围：已完成与进行中项目客户' },
   ]
   return (
     <section className="border-t border-line">
       <div className="mx-auto w-[min(1240px,calc(100%-40px))] py-16 md:w-[min(1240px,calc(100%-100px))] md:py-24">
-        <SectionTitle eyebrow="NUMBERS" title="博瑞伦特在数字里" desc="以下数据均为已完成项目的统计口径，如实呈现，不做夸大。" />
-        <div className="grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        <SectionTitle eyebrow="NUMBERS" title="博瑞伦特在数字里" />
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2">
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 60}>
               <div className="border-l-2 border-brand/40 pl-5">
@@ -182,20 +179,20 @@ function About() {
             <div>
               <p className="eyebrow">ABOUT BRALLENT</p>
               <h2>
-                深入一线，
+                博瑞伦特，
                 <br />
-                交付真正可用的定制成果。
+                企业定制服务专家。
               </h2>
             </div>
           </Reveal>
           <Reveal delay={100}>
             <div className="about-copy">
               <p>
-                <strong>博瑞伦特（BRALLENT）是一家企业定制服务提供商</strong>，围绕「业务效率」与「品牌形象」两个方向，提供两项独立且深度定制的服务：FDE
+                <strong>博瑞伦特（BRALLENT）是一家企业定制服务提供商</strong>，围绕「业务效率」与「品牌形象」两个方向，提供两项独立的定制服务：FDE
                 前线部署工程与企业服装定制。
               </p>
               <p>
-                我们相信，好的定制不靠模板，靠一线。无论是工程师驻场理解业务，还是设计顾问逐稿打磨服饰细节，博瑞伦特始终坚持深入客户的真实场景，交付真正可用、可持续的成果。
+                每项委托由资深顾问 1 对 1 对接：FDE 工程师进入业务环境，在真实流程中推进系统落地；设计顾问按品牌标准逐稿打磨服饰方案，直至确认交付。
               </p>
               <p>
                 企业邮箱：<strong>rose@brallent.cn</strong>
@@ -260,7 +257,7 @@ function Contact() {
             <div>
               <p className="eyebrow">CONTACT</p>
               <h2>准备好启动你的专属定制项目了吗？</h2>
-              <p>告诉我们你的需求，专属顾问将在 1 个工作日内与你联系。</p>
+              <p>告诉我们你的需求，专属顾问 1 对 1 对接，1 个工作日内与你联系。</p>
             </div>
           </Reveal>
           <Reveal delay={100}>
